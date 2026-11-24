@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#e9532c"/><path d="M18 14h31v8H27v10h18v8H27v13h-9z" fill="#fff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 88" fill="none">
+  <defs>
+    <mask id="face">
+      <rect width="84" height="88" fill="white"/>
+      <path d="m64 26 5 1-4 2z" fill="black"/>
+      <path d="M62 45c-10 1-17 7-17 16 0 7 4 12 11 14" stroke="black" stroke-width="3.5" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <g mask="url(#face)">
+    <path d="M47 76C30 84 9 81 9 67c0-9 8-15 15-13 6 2 6 9 0 11" stroke="#ff8a32" stroke-width="7" stroke-linecap="round"/>
+    <path d="M43 80c-9 0-15-7-15-16 0-15 8-26 16-33-4-5-4-11 0-16l-1-10a1 1 0 0 1 2-1l10 8c4-1 7-1 11 1l9-6a1 1 0 0 1 2 1l-1 13 3 6c2 3 1 7-2 9l-11 6c-3 8 2 17 4 26l6 5c3 3 1 7-4 7Z" fill="#ff8a32"/>
+  </g>
+</svg>

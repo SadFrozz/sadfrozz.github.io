@@ -36,7 +36,7 @@ def write(path,content):
 
 def shell(lang,title,description,path,alternate,body,kind='', *, image=SITE_IMAGE, structured=None):
     t=T[lang]; altlang='en' if lang=='ru' else 'ru'
-    logo = '<span>SadFrozz</span>'
+    logo = '<img class="brand-logo" src="/assets/sadfrozz-logo.svg" alt="">'
     headline = E(title + ' · SadFrozz', quote=True)
     summary = E(description, quote=True)
     if path == '/404.html':
@@ -71,7 +71,7 @@ def shell(lang,title,description,path,alternate,body,kind='', *, image=SITE_IMAG
 <title>{headline}</title><meta name="description" content="{summary}">
 <meta name="color-scheme" content="light dark">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/assets/favicon.svg?v=2" type="image/svg+xml"><link rel="stylesheet" href="/assets/style.css">
 {seo}
 <script src="/assets/theme.js"></script><script src="/assets/site.js" defer></script></head>
 <body class="{kind}"><a class="skip" href="#main">{t['skip']}</a>
