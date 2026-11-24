@@ -1,0 +1,1105 @@
+[
+  {
+    "repo": "FRZZ-Reaper-Media-Import",
+    "slug": "media-import",
+    "title": "FRZZ REAPER Media Import",
+    "category": "reaper",
+    "platforms": [
+      "Windows x64",
+      "macOS 11+"
+    ],
+    "summary": {
+      "ru": "Dolby, DTS и субтитры прямо в проект. Выбор аудиодорожки в MKV и MP4 без промежуточной конвертации.",
+      "en": "Bring Dolby, DTS and subtitles into your project. Choose an MKV or MP4 audio track without an intermediate conversion."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Что делает расширение",
+          "items": [
+            "Нативное расширение дополняет импорт REAPER: raw Dolby/DTS/MLP, потоковое чтение TrueHD+AC3, ASS/SSA/SRT/WebVTT и выбор звука в многодорожечных MKV/MP4. Аудио и видео читаются из исходного контейнера.",
+            "Опубликованный релиз: v1.2.0 от 22 ноября 2026 года. В main уже записан v1.3.0 от 24 ноября с HDR-тонмаппингом и страницей настроек. На момент проверки отдельного релиза v1.3.0 нет. Эти возможности main не следует ожидать от скачанного v1.2.0."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования",
+          "items": [
+            "REAPER 7.66+; для FFmpeg 9.x нужен REAPER 7.80+. Windows x64 или macOS 11+ (Universal 2: Intel и Apple Silicon).",
+            "Полная shared-сборка FFmpeg 5.x–9.x: libavcodec/libavformat с major ABI 59–63 и зависимые библиотеки. Обычный исполняемый ffmpeg или статический архив не заменяют shared-библиотеки."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Установка",
+          "items": [
+            "Скачайте архив v1.2.0 для Windows или macOS по ссылкам ниже. При необходимости сверьте SHA256SUMS.txt из того же релиза.",
+            "В REAPER откройте Options → Show REAPER resource path in explorer/finder. Закройте REAPER.",
+            "Скопируйте reaper_frzz_media_import.dll (Windows) или reaper_frzz_media_import.dylib (macOS) в UserPlugins внутри папки ресурсов.",
+            "Разместите там же shared-библиотеки FFmpeg подходящей архитектуры. В Windows скопируйте DLL из bin полной shared-сборки; в macOS используйте совместимые dylib или ссылки на установленные библиотеки.",
+            "В Preferences → Media → Video/Import/Misc поставьте ffmpeg_hw в приоритет видеодекодеров. Перезапустите REAPER. Подробные команды для FFmpeg и macOS quarantine приведены в README выбранного тега."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Использование",
+          "items": [
+            "Перетащите поддерживаемое raw-аудио в проект или вставьте его обычной командой импорта. Для .thd+ac3 читается TrueHD-поток; промежуточный файл не создаётся.",
+            "Вставьте MKV/MP4 с несколькими аудиопотоками и выберите дорожку по языку, названию, кодеку и каналам. Пункт Item → Audio track или контекстное меню меняет дорожку активного тейка. Выбор сохраняется в проекте; Undo/Redo работают одним шагом.",
+            "ASS/SSA/SRT/VTT становятся текстовыми айтемами с таймингом относительно позиции импорта. Поддерживаются UTF-8 и UTF-16 LE/BE с BOM. Это можно использовать как подготовку текста для Web Prompter.",
+            "В main v1.3.0 добавлены Preferences → Plug-ins → Media Import, тонмаппинг HDR10/HDR10+/Dolby Vision и исправления HEVC. Это отдельный путь сборки для Windows x64 и Intel Mac; не часть опубликованного v1.2.0."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения",
+          "items": [
+            "Регистрация расширения файла не гарантирует поддержку любого его варианта. AC-4 и редкие DTS-HD/ES/X/UHD без воспроизводимых образцов не заявлены как проверенные. Переименование файла не меняет кодек.",
+            "Высотные каналы выбранной дорожки не сохраняются: например, 7.1.2 импортируется как 7.1 с основными каналами и LFE. Это не рендер объектов Atmos.",
+            "Стили, расположение и визуальные слои субтитров не переносятся в оформление текстовых айтемов. SRT ограничен 10 исходными строками на айтем.",
+            "Нативный выбор дорожек зависит от проверенных точек подключения конкретных сборок REAPER. Новая версия REAPER может требовать отдельной проверки.",
+            "Для текущего кода опубликованы результаты Windows и Intel Mac; наличие arm64 в сборке не доказывает повторную проверку всех функций на Apple Silicon. HDR на Intel Arc/QSV остаётся экспериментальным и не проверен на реальном Arc."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Если импорт не работает",
+          "items": [
+            "Проверьте папку ресурсов активной установки REAPER: у portable-версии она может отличаться от стандартной. Убедитесь, что архитектуры расширения, REAPER и FFmpeg совпадают.",
+            "Проверьте наличие именно shared-библиотек и выбранного видеодекодера. Для отчёта укажите версии REAPER, расширения, FFmpeg и воспроизводимый формат; не прикладывайте личные медиа без необходимости."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Сборка из исходников",
+          "items": [
+            "Для воспроизведения релиза используйте тег v1.2.0; для HDR-разработки main — зафиксированный ниже коммит и его README. Нужны CMake 3.24+, submodules, Visual Studio 2022/Windows SDK или Xcode Command Line Tools.",
+            "Команды для Windows после клонирования с --recurse-submodules приведены ниже. macOS использует presets macos-universal и mac-universal-release. Сборка main с HDR требует дополнительных зависимостей libplacebo и заголовков FFmpeg; обычной сборки релизного тега для этого недостаточно."
+          ],
+          "code": "cmake --preset vs2022-x64\ncmake --build --preset release\nctest --preset release"
+        },
+        {
+          "id": "license",
+          "title": "Лицензия",
+          "items": [
+            "Смотрите LICENSE и лицензии зависимостей в выбранной версии исходников. Сам портал не распространяет бинарники или сторонние библиотеки."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "What it does",
+          "items": [
+            "A native REAPER extension for raw Dolby/DTS/MLP audio, streaming TrueHD+AC3, ASS/SSA/SRT/WebVTT subtitles and audio stream selection in multitrack MKV/MP4. Audio and video stay in the original container.",
+            "Published release: v1.2.0, 22 November 2026. The main branch already records v1.3.0 dated 24 November with HDR tone mapping and preferences. There is no separate v1.3.0 release at this snapshot. Do not expect main-only features in the v1.2.0 download."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "items": [
+            "REAPER 7.66+; FFmpeg 9.x requires REAPER 7.80+. Windows x64 or macOS 11+ (Universal 2: Intel and Apple Silicon).",
+            "A full shared FFmpeg 5.x–9.x build, with libavcodec/libavformat major ABI 59–63 and their dependencies. A standalone ffmpeg executable or a static archive does not supply the required shared libraries."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "items": [
+            "Download the v1.2.0 archive for your OS below. SHA256SUMS.txt is available in the same release.",
+            "In REAPER, open Options → Show REAPER resource path in explorer/finder, then close REAPER.",
+            "Copy reaper_frzz_media_import.dll (Windows) or reaper_frzz_media_import.dylib (macOS) into the resource directory’s UserPlugins folder.",
+            "Place matching shared FFmpeg libraries there as well: DLLs from a full shared build’s bin folder on Windows; compatible dylib files or links on macOS.",
+            "Prioritize ffmpeg_hw under Preferences → Media → Video/Import/Misc and restart REAPER. Refer to the tagged README for FFmpeg setup commands and the macOS quarantine procedure."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Usage",
+          "items": [
+            "Drop supported raw audio into the project or use normal media insertion. For .thd+ac3, the TrueHD stream is read without a temporary media file.",
+            "Insert an MKV/MP4 containing multiple audio streams and choose by language, title, codec and channels. Item → Audio track and the item context menu switch the active take’s stream. The selection is saved; Undo/Redo each take one step.",
+            "ASS/SSA/SRT/VTT become timed text items relative to the insertion position. UTF-8 and UTF-16 LE/BE with a BOM are supported. These items can prepare text for Web Prompter.",
+            "Main v1.3.0 adds Preferences → Plug-ins → Media Import, HDR10/HDR10+/Dolby Vision tone mapping and HEVC fixes. This is a separate build path for Windows x64 and Intel Mac, outside the published v1.2.0."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Limitations",
+          "items": [
+            "A registered extension is not proof that every codec variant works. AC-4 and uncommon DTS-HD/ES/X/UHD variants without reproducible samples are not claimed as verified. Renaming a file does not change its codec.",
+            "Height channels are omitted: 7.1.2 becomes 7.1, retaining main channels and LFE. This is not an Atmos object renderer.",
+            "Subtitle styling, placement and visual layer order do not become text-item formatting. SRT supports up to 10 original text lines per item.",
+            "Native stream selection depends on validated integration points in specific REAPER builds. A new REAPER version may need a separate compatibility check.",
+            "Current source reports Windows and Intel Mac checks. An arm64 slice does not establish fresh hardware coverage for every feature. The Intel Arc/QSV HDR path remains experimental and untested on physical Arc hardware."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Troubleshooting",
+          "items": [
+            "Check the resource path of the active REAPER installation, especially for portable installs. REAPER, extension and FFmpeg architectures must match.",
+            "Check the shared libraries and video decoder priority. Report REAPER, extension and FFmpeg versions and a reproducible format. Avoid attaching personal media unnecessarily."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Build from source",
+          "items": [
+            "Use v1.2.0 to reproduce the release. For HDR development use the pinned main commit and its README. Requirements include CMake 3.24+, submodules and Visual Studio 2022/Windows SDK or Xcode Command Line Tools.",
+            "Windows commands after cloning with --recurse-submodules follow below. macOS uses macos-universal and mac-universal-release presets. Main’s HDR builds require additional libplacebo dependencies and FFmpeg headers."
+          ],
+          "code": "cmake --preset vs2022-x64\ncmake --build --preset release\nctest --preset release"
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "See LICENSE and dependency notices at the selected source revision. This portal does not redistribute binaries or third-party libraries."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "CHANGELOG.md",
+      "src/plugin.cpp",
+      "src/container_audio.cpp",
+      "src/container_native_video.cpp",
+      "src/video_settings.cpp",
+      "CMakeLists.txt"
+    ]
+  },
+  {
+    "repo": "dLab.Series",
+    "slug": "dlab-series",
+    "title": "dLab.Series",
+    "category": "audio",
+    "platforms": [
+      "Windows x64",
+      "macOS 11+",
+      "VST3 · VST2 · AU"
+    ],
+    "summary": {
+      "ru": "Два канала обработки: dLab 286 и dLab 376. Компрессия, де-эссер и работа с тембром в одном окне.",
+      "en": "Two channel strips: dLab 286 and dLab 376. Compression, de-essing and tone shaping in one window."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Два плагина",
+          "items": [
+            "dLab 286: входное усиление, low-cut, компрессор Drive/Density, де-эссер, LF/HF Detail, экспандер/гейт и выходной уровень. Режимы Project One и 286S.",
+            "dLab 376: Warm/Bright/Muted, EQ, компрессор OverEasy с FAST/SLOW, де-эссер и выходной уровень. Оверсемплинг Off/2x/4x, по умолчанию Off.",
+            "Последний релиз — v1.0 от 11 октября 2026 года. Дерево main совпадает с тегом v1.0 на момент проверки."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования",
+          "items": [
+            "Windows 64-bit: VST3 и VST2. macOS 11+: Universal Intel/Apple Silicon, VST3, AU и VST2. Нужна DAW или другой хост нужного формата.",
+            "Для OBS выбирайте VST2: 286 и 376 устанавливаются двумя отдельными плагинами. Самостоятельного приложения нет."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Установка",
+          "items": [
+            "Закройте DAW, OBS и другие приложения, использующие плагины. Скачайте установщик Windows x64 или macOS Universal из v1.0.",
+            "В Windows выберите форматы и папки VST3/VST2. В macOS форматы выбираются через Customize.",
+            "Откройте хост и обновите список плагинов. Найдите dLab 286 и dLab 376.",
+            "Windows-установщик предлагает удалить старые беты Channel286/376/386/676 из выбранной папки VST3. Не держите старые 286/376 рядом с новыми: хост может считать их одним плагином. Сохраните копию нужной старой версии перед заменой."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Использование",
+          "items": [
+            "Добавьте dLab 286 или dLab 376 на моно- или стереодорожку. Настройте вход, обработку и выход, сравнивая результат при сопоставимой громкости.",
+            "В 286 выбирайте режим Project One или 286S, затем Drive/Density, де-эссер, Detail и гейт. Встроенные подсказки подсвечивают диапазоны ручек, но не меняют ваши значения.",
+            "В 376 выберите Warm, Bright или Muted и при необходимости включите оверсемплинг. Это варианты тембра, а не модели конкретных марок ламп. Финальный дизеринг и шумоформирование выполняйте в DAW."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения",
+          "items": [
+            "Установщик macOS не подписан Developer ID и не нотарифицирован Apple; плагины имеют ad-hoc подпись. Universal включает обе архитектуры, но опубликованные локальные проверки проводились на Intel Mac.",
+            "Независимая эмуляция по принципам работы и открытой информации. Проект не связан с dbx/Harman. Аппаратные функции вроде +48 V, AES/SPDIF и внешнего word clock не реализованы как фиктивные параметры обработки.",
+            "Автоматические DSP/host-тесты не заменяют проверки в конкретной DAW или OBS. Linux-сборка не опубликована."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Если хост не видит плагин",
+          "items": [
+            "Проверьте установленный формат и путь сканирования хоста. Для OBS нужен VST2. После удаления старых бет повторите сканирование.",
+            "В Issue укажите ОС, хост и версию, формат плагина и шаги воспроизведения."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Сборка",
+          "items": [
+            "Git с submodules, CMake 3.22+, Python 3. Windows: Visual Studio 2022 C++/Windows SDK, для установщика NSIS 3.10+. macOS: Xcode Command Line Tools. JUCE 8.0.12 зафиксирован как submodule; исходный ZIP с GitHub его не содержит.",
+            "Windows использует preset windows-x64; macOS — macos-universal. Сборка сама не устанавливает плагины. Полная упаковка описана в docs/BUILDING.md."
+          ],
+          "code": "git clone --recurse-submodules https://github.com/SadFrozz/dLab.Series.git\ncd dLab.Series\ncmake --preset windows-x64\ncmake --build --preset windows-x64\nctest --preset windows-x64"
+        },
+        {
+          "id": "license",
+          "title": "Лицензии",
+          "items": [
+            "Собственный код — MIT. JUCE — AGPL-3.0 или коммерческая лицензия, VeSTige — GPL-2.0-or-later, Barlow — OFL-1.1. Для распространения готовых плагинов учитывайте все условия из NOTICE.md."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "Two plugins",
+          "items": [
+            "dLab 286: input gain, low-cut, Drive/Density compression, de-essing, LF/HF Detail, expander/gate and output gain. Project One and 286S modes.",
+            "dLab 376: Warm/Bright/Muted tonal choices, EQ, OverEasy compression with FAST/SLOW, de-essing and output gain. Off/2x/4x oversampling, off by default.",
+            "Latest release: v1.0, 11 October 2026. Main’s tree matches the v1.0 tag at this snapshot."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "items": [
+            "Windows 64-bit: VST3 and VST2. macOS 11+: Universal Intel/Apple Silicon, VST3, AU and VST2. A compatible DAW or plugin host is required.",
+            "For OBS, use VST2: 286 and 376 install as two separate plugins. There is no standalone application."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "items": [
+            "Close your DAW, OBS and other plugin hosts. Download the Windows x64 or macOS Universal installer from v1.0.",
+            "On Windows, select formats and VST3/VST2 folders. On macOS, choose formats through Customize.",
+            "Reopen your host and rescan. Look for dLab 286 and dLab 376.",
+            "The Windows installer offers to remove older Channel286/376/386/676 beta plugins from the chosen VST3 folder. Avoid keeping old 286/376 versions beside the new plugins: the host may identify them as the same plugin. Preserve any old version you need before replacing it."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Usage",
+          "items": [
+            "Insert dLab 286 or dLab 376 on a mono or stereo track. Adjust input, processing and output while comparing at similar listening levels.",
+            "In 286, choose Project One or 286S, then adjust Drive/Density, de-essing, Detail and gate. Built-in guides highlight suggested knob ranges without changing values.",
+            "In 376, choose Warm, Bright or Muted and enable oversampling if needed. These are tonal variations, not models of specific tube brands. Apply final dithering and noise shaping in the DAW."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Limitations",
+          "items": [
+            "The macOS installer has no Developer ID signature or Apple notarization; plugin bundles are ad-hoc signed. Universal includes both architectures, but published local checks were performed on Intel Mac.",
+            "An independent emulation based on operating principles and public information, unaffiliated with dbx/Harman. Physical features such as +48 V, AES/SPDIF and external word clock are not fabricated processing parameters.",
+            "Automated DSP/host checks do not replace testing in your DAW or OBS. No Linux build is published."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "If the host cannot find a plugin",
+          "items": [
+            "Check the installed format and host scan path. OBS needs VST2. Rescan after removing conflicting beta versions.",
+            "Report OS, host/version, plugin format and reproduction steps in an Issue."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Building",
+          "items": [
+            "Git with submodules, CMake 3.22+, Python 3. Windows: Visual Studio 2022 C++/Windows SDK and NSIS 3.10+ for installers. macOS: Xcode Command Line Tools. JUCE 8.0.12 is pinned as a submodule; GitHub source ZIPs do not include it.",
+            "Use windows-x64 on Windows and macos-universal on macOS. Building does not install plugins. See docs/BUILDING.md for packaging."
+          ],
+          "code": "git clone --recurse-submodules https://github.com/SadFrozz/dLab.Series.git\ncd dLab.Series\ncmake --preset windows-x64\ncmake --build --preset windows-x64\nctest --preset windows-x64"
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "Original code: MIT. JUCE: AGPL-3.0 or commercial; VeSTige: GPL-2.0-or-later; Barlow: OFL-1.1. Compiled distributions must comply with all applicable terms in NOTICE.md."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "docs/BUILDING.md",
+      "NOTICE.md",
+      "src/modules/Channel286/src/PluginProcessor.cpp",
+      "src/modules/Channel376/src/ParameterContract.h",
+      "src/bundle/Processors.cpp",
+      "CMakeLists.txt"
+    ]
+  },
+  {
+    "repo": "reaper_webview",
+    "slug": "webview",
+    "title": "REAPER WebView",
+    "category": "reaper",
+    "platforms": [
+      "Windows x64",
+      "macOS Universal"
+    ],
+    "summary": {
+      "ru": "Браузер внутри REAPER: докируемые окна, отдельные вкладки и управление из ReaScript.",
+      "en": "A browser inside REAPER: dockable windows, independent instances and a ReaScript API."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Встроенный браузер",
+          "items": [
+            "Расширение использует WebView2 в Windows и WKWebView в macOS. Поддерживает несколько окон, поиск по странице, контекстное меню, сохранение положения и проброс сочетаний клавиш в REAPER.",
+            "Последняя публикация — v0.2.0 от 11 сентября 2026 года, помечена Pre-release. Main совпадает с тегом на момент проверки."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования",
+          "items": [
+            "REAPER на Windows x64 или macOS с подходящей Universal-библиотекой. Windows требует Microsoft Edge WebView2 Runtime; SDK для сборки не заменяет установленный Runtime.",
+            "Доступ в сеть нужен для сетевых страниц. Встроенный WKWebView использует системный движок macOS. В README не установлен точный минимальный номер версии REAPER — здесь он не придуман."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Установка",
+          "items": [
+            "Откройте релиз v0.2.0 и скачайте архив своей платформы. Ссылки /releases/latest могут пропускать предварительные версии; используйте точную ссылку ниже.",
+            "Через Options → Show REAPER resource path откройте папку ресурсов и закройте REAPER.",
+            "Распакуйте содержимое архива в UserPlugins: reaper_webview.dll в Windows или reaper_webview.dylib в macOS. Если архив содержит WebView2Loader.dll, сохраните его рядом с расширением.",
+            "Перезапустите REAPER. Для обычной работы используйте Release-библиотеку; debug-вариант предназначен для диагностики."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Использование и API",
+          "items": [
+            "Создайте Lua ReaScript, выполните пример ниже. Он открывает отдельный именованный браузер внутри Docker.",
+            "InstanceId: wv_default по умолчанию, random создаёт последовательные wv_N, своё имя должно начинаться с wv_. Иное имя приводится к wv_default.",
+            "ShowPanel принимает hide, docker или always. SetTitle задаёт пользовательский заголовок; BasicCtxMenu включает минимальное меню. URL \"0\" позволяет применить опции без смены страницы.",
+            "В Preferences → Plug-ins → WebView настраиваются домашняя страница, проброс хоткеев и восстановление окон. Ctrl+F/Cmd+F открывает поиск."
+          ],
+          "code": "reaper.WEBVIEW_Navigate(\"https://www.reaper.fm/\",\n  '{\"InstanceId\":\"wv_reference\",\"SetTitle\":\"Reference\",\"ShowPanel\":\"docker\"}')"
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения",
+          "items": [
+            "Это предварительный релиз. Linux не поддерживается текущей сборкой.",
+            "Маршрутизация звука браузера в аудиограф REAPER/ReaRoute находится в планах и не реализована как готовая функция.",
+            "В macOS подсветка поиска ограничена 5000 совпадениями с резервным подсчётом. Поведение конкретных сайтов зависит от системного веб-движка.",
+            "Поддержку устаревших Windows нельзя выводить из старых FAQ других проектов: проверьте совместимость доступного WebView2 Runtime с вашей ОС."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Если окно не открывается",
+          "items": [
+            "Убедитесь, что расширение загружено: функция reaper.WEBVIEW_Navigate должна существовать. Проверьте активную папку ресурсов, архитектуру и Runtime Windows.",
+            "Для нескольких окон используйте разные wv_* или random. Для отчёта приложите ОС, версию REAPER, URL воспроизведения без приватных параметров и минимальный Lua-пример."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Сборка",
+          "items": [
+            "Клонируйте с --recurse-submodules. Нужны CMake 3.20+, C++ toolchain, REAPER SDK, WDL и в Windows WIL. WebView2 SDK загружается CMake из NuGet.",
+            "Таргеты: reaper_webview и reaper_webview_debug. В macOS требуется Xcode toolchain. Полные команды и структура приведены в README."
+          ],
+          "code": "cmake -S . -B build\ncmake --build build --config Release --target reaper_webview"
+        },
+        {
+          "id": "license",
+          "title": "Лицензия",
+          "items": [
+            "MIT; сторонние компоненты сохраняют собственные лицензии."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "Embedded browser",
+          "items": [
+            "Uses WebView2 on Windows and WKWebView on macOS. Includes independent windows, find-in-page, context menus, window placement and REAPER shortcut forwarding.",
+            "Latest publication: v0.2.0, 11 September 2026, marked Pre-release. Main matches the tag at this snapshot."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "items": [
+            "REAPER on Windows x64 or macOS with the appropriate Universal library. Windows requires Microsoft Edge WebView2 Runtime; the build SDK does not replace the installed Runtime.",
+            "Network pages require network access. WKWebView uses the macOS system engine. The README does not define an exact minimum REAPER version; none is invented here."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "items": [
+            "Open v0.2.0 and download your platform archive. /releases/latest can skip pre-releases; use the exact link below.",
+            "Open Options → Show REAPER resource path, then close REAPER.",
+            "Extract the archive into UserPlugins: reaper_webview.dll on Windows or reaper_webview.dylib on macOS. Keep WebView2Loader.dll beside the extension if included.",
+            "Restart REAPER. Use the Release binary for normal work; debug builds are for diagnostics."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Usage and API",
+          "items": [
+            "Create a Lua ReaScript and run the example below to open a named browser in the Docker.",
+            "InstanceId defaults to wv_default; random generates sequential wv_N IDs; custom names must start with wv_. Other names resolve to wv_default.",
+            "ShowPanel accepts hide, docker or always. SetTitle sets a custom title; BasicCtxMenu enables the minimal menu. URL \"0\" applies options without navigating.",
+            "Preferences → Plug-ins → WebView controls the home page, shortcut forwarding and window restoration. Ctrl+F/Cmd+F opens find."
+          ],
+          "code": "reaper.WEBVIEW_Navigate(\"https://www.reaper.fm/\",\n  '{\"InstanceId\":\"wv_reference\",\"SetTitle\":\"Reference\",\"ShowPanel\":\"docker\"}')"
+        },
+        {
+          "id": "limits",
+          "title": "Limitations",
+          "items": [
+            "This is a pre-release. The current build does not support Linux.",
+            "Routing browser audio into REAPER/ReaRoute is a roadmap item, not a delivered feature.",
+            "macOS find highlights are capped at 5000 with fallback counting. Website behavior depends on the system web engine.",
+            "Do not infer legacy Windows support from another project’s old FAQ; check the available WebView2 Runtime’s OS requirements."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "If the window does not open",
+          "items": [
+            "Check that reaper.WEBVIEW_Navigate exists, the correct resource folder is used, the architecture matches and the Windows Runtime is installed.",
+            "Use distinct wv_* IDs or random for multiple windows. Report OS, REAPER version, a URL without private parameters and a minimal Lua example."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Building",
+          "items": [
+            "Clone with --recurse-submodules. Requires CMake 3.20+, a C++ toolchain, REAPER SDK, WDL and WIL on Windows. CMake downloads the WebView2 SDK from NuGet.",
+            "Targets: reaper_webview and reaper_webview_debug. macOS requires the Xcode toolchain. See README for full platform commands."
+          ],
+          "code": "cmake -S . -B build\ncmake --build build --config Release --target reaper_webview"
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "MIT; third-party components retain their own licenses."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "CHANGELOG.md",
+      "src/api.mm",
+      "src/settings.mm",
+      "src/platform/windows/webview_win.cpp",
+      "CMakeLists.txt"
+    ]
+  },
+  {
+    "repo": "FRZZ-reaper-web-prompter",
+    "slug": "web-prompter",
+    "title": "FRZZ Web Prompter",
+    "category": "reaper",
+    "platforms": [
+      "REAPER",
+      "Windows · macOS",
+      "LAN"
+    ],
+    "summary": {
+      "ru": "Текстовый монитор для записи и монтажа: реплики, роли, актёры и синхронизация с таймлайном.",
+      "en": "A text monitor for recording and editing: cues, roles, actors and timeline synchronization."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Текст рядом с таймлайном",
+          "items": [
+            "Телесуфлёр и интерактивная монтажка работают во встроенном WebView или браузере в локальной сети. Lua-backend получает текст из заметок медиаайтемов P_NOTES выбранной дорожки и передаёт его веб-интерфейсу.",
+            "Последний релиз — v1.5.1 от 18 ноября 2025 года. Main совпадает с тегом на момент проверки. Роли, фильтры, сегментация, статистика и автопрокрутка входят в интерфейс."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования",
+          "items": [
+            "REAPER с Lua ReaScript, подготовленные текстовые айтемы и настроенный HTTP-интерфейс Control/OSC/web.",
+            "Для встроенного режима: reaper_webview, а в Windows ещё WebView2 Runtime. Для внешнего браузера расширение WebView не требуется. Инсталлеры опубликованы для Windows и macOS."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Установка",
+          "items": [
+            "Скачайте .exe для Windows или .command для macOS из v1.5.1. Сохраните резервную копию изменяемых настроек REAPER перед установкой.",
+            "Запустите инсталлер и подтвердите папку ресурсов активной установки REAPER. Он копирует Scripts, reaper_www_root и комплектный плагин при наличии.",
+            "Разрешите добавление HTTP web-интерфейса либо настройте его вручную в Preferences → Control/OSC/web, указав prompter.html.",
+            "Перезапустите REAPER. В Action List должны появиться Custom: Web Prompter Backend и Custom: Web Prompter Launch.",
+            "Для ручной установки скопируйте Scripts и reaper_www_root в папку ресурсов, добавьте backend и launch Lua-скрипты в Action List. UserPlugins нужен только встроенному режиму. Точные записи reaper-kb.ini есть в README."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "Первый запуск",
+          "items": [
+            "Подготовьте дорожку с текстом в заметках медиаайтемов. Времена айтемов задают начало и конец реплик. Прямое чтение SWS Notes и текста маркеров не заменяет эти данные.",
+            "Запустите Web Prompter Backend, затем Web Prompter Launch. Выберите дорожку с текстом. Для планшета откройте HTTP-адрес REAPER из Control/OSC/web в той же локальной сети.",
+            "Настройте роли и актёров, solo/mute или затемнение, UI Scale и автопрокрутку «строка»/«страница». Цвет актёра имеет приоритет; цвета проекта можно игнорировать.",
+            "Сегменты определяются по маркерам/видео или вручную. Если видна только часть текста, проверьте сегментацию и режим «Весь проект». Jump по клику учитывает пре-ролл и запреты при воспроизведении/записи."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения и данные",
+          "items": [
+            "Нет редактирования исходного текста прямо в мониторе и собственного импорта SRT/ASS. Подготовьте текст в REAPER; Media Import — отдельное расширение, которое может создать текстовые айтемы.",
+            "Backend сохраняет текст в reaper_www_root/subtitles.json. Глобальные настройки — settings.json, карта ролей сохранённого проекта — <project>-roles.json рядом с проектом. Это рабочие данные, их не нужно загружать на GitHub Pages.",
+            "HTTP-интерфейс обслуживает REAPER на рабочем компьютере. Портал GitHub Pages содержит документацию и не подключается к вашему REAPER. Доступ к рабочему интерфейсу оставляйте в доверенной сети.",
+            "Точные минимальные версии REAPER и ОС не заданы в README. Наличие старого FAQ о Windows 7/8 не подтверждает текущую поддержку WebView2 на этих системах."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Если монитор пустой",
+          "items": [
+            "Проверьте backend, выбранную дорожку и непустые P_NOTES. Затем проверьте HTTP csurf с prompter.html и выбранный порт.",
+            "Сохраните проект при проблеме с его именем; перезапустите Launch при ошибках отображения. Если клик не перемещает курсор, проверьте Jump, пре-ролл и защиту транспорта."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Исходники и обновление",
+          "items": [
+            "Исходники состоят из Lua-скриптов, статического веб-интерфейса и Python-инсталлера. Workflow main.yaml собирает публикационные инсталлеры.",
+            "При обновлении сохраните настройки и проектные карты ролей, затем замените Scripts, reaper_www_root и при необходимости UserPlugins либо используйте инсталлер. Перезапустите REAPER."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Лицензия",
+          "items": [
+            "MIT для проекта; jQuery, Spectrum и используемые иконки имеют отдельные исходные условия."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "Text beside your timeline",
+          "items": [
+            "A teleprompter and interactive cue sheet, embedded in WebView or opened in a LAN browser. The Lua backend reads media-item P_NOTES on the selected track and provides data to the web UI.",
+            "Latest release: v1.5.1, 18 November 2025. Main matches the tag at this snapshot. Includes roles, filters, segmentation, statistics and auto-scrolling."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "items": [
+            "REAPER with Lua ReaScript, prepared text items and an HTTP interface under Control/OSC/web.",
+            "Embedded mode needs reaper_webview and, on Windows, WebView2 Runtime. An external browser does not need the WebView extension. Installers are published for Windows and macOS."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "items": [
+            "Download the Windows .exe or macOS .command from v1.5.1. Back up affected REAPER settings before installation.",
+            "Run the installer and confirm the active REAPER resource folder. It copies Scripts, reaper_www_root and a bundled plugin when present.",
+            "Allow HTTP interface setup or configure it manually under Preferences → Control/OSC/web with prompter.html.",
+            "Restart REAPER. Action List should include Custom: Web Prompter Backend and Custom: Web Prompter Launch.",
+            "For manual setup, copy Scripts and reaper_www_root into the resource folder and register the backend and launch Lua scripts in Action List. UserPlugins is needed only for embedded mode. See README for exact reaper-kb.ini entries."
+          ],
+          "code": null
+        },
+        {
+          "id": "usage",
+          "title": "First run",
+          "items": [
+            "Prepare a track with text in media-item notes. Item positions and lengths define cue timing. SWS Notes and marker text do not substitute for these data.",
+            "Run Web Prompter Backend, then Web Prompter Launch. Choose the text track. On a tablet, open the REAPER HTTP address shown in Control/OSC/web on the same LAN.",
+            "Configure roles, actors, solo/mute or dim filters, UI Scale and line/page auto-scroll. Actor colors take priority; project colors can be ignored.",
+            "Segments can come from markers/video or manual definitions. If cues are missing, check segmentation and the whole-project display mode. Click-to-jump respects pre-roll and playback/recording guards."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Limitations and data",
+          "items": [
+            "There is no direct source-text editing in the monitor and no built-in SRT/ASS importer. Prepare text in REAPER; the separate Media Import extension can create text items.",
+            "The backend writes text to reaper_www_root/subtitles.json. Global settings use settings.json; a saved project’s role map is <project>-roles.json beside the project. These working data should not be uploaded to GitHub Pages.",
+            "REAPER serves the working HTTP interface on your computer. This GitHub Pages portal provides documentation and does not connect to your REAPER instance. Keep the working interface on a trusted network.",
+            "The README gives no exact minimum REAPER/OS versions. Its old Windows 7/8 FAQ does not establish current WebView2 support on those systems."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "If the monitor is empty",
+          "items": [
+            "Check the backend, selected track and nonempty P_NOTES. Then check the HTTP csurf entry, prompter.html and port.",
+            "Save the project if its name fails to update; restart Launch for display issues. If clicks do not move the cursor, check Jump settings, pre-roll and transport guards."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Sources and updates",
+          "items": [
+            "The source consists of Lua scripts, a static web UI and a Python installer. main.yaml builds release installers.",
+            "Preserve settings and project role maps before replacing Scripts, reaper_www_root and optional UserPlugins, or use the installer. Restart REAPER."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "Project: MIT; jQuery, Spectrum and included icons retain their original terms."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "Scripts/FRZZ_web_prompter_backend.lua",
+      "Scripts/FRZZ_web_prompter.lua",
+      "installer.py",
+      ".github/workflows/main.yaml"
+    ]
+  },
+  {
+    "repo": "mcudisp-web",
+    "slug": "mcudisp-web",
+    "title": "MCU Display Web",
+    "category": "reaper",
+    "platforms": [
+      "Python 3",
+      "MIDI + OSC",
+      "LAN"
+    ],
+    "summary": {
+      "ru": "Дисплей контроллера на телефоне или планшете: названия каналов, таймкод и состояние записи.",
+      "en": "Put your controller display on a phone or tablet: channel labels, timecode and recording state."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Внешний дисплей по сети",
+          "items": [
+            "Python-сервер принимает текст по MIDI SysEx, таймкод и транспорт по OSC, затем передаёт их браузеру через Socket.IO. На экране две строки по 56 символов: восемь ячеек по семь символов.",
+            "Последний релиз — v1.2 от 30 августа 2025 года, без готовых бинарных файлов. Используется исходный код. Main отличается от тега одной ссылкой в README; серверный код совпадает."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования",
+          "items": [
+            "Python 3 и зависимости requirements.txt: mido, python-rtmidi, Flask, Flask-SocketIO, python-osc, eventlet. Версии зависимостей не зафиксированы.",
+            "REAPER, MIDI-контроллер или совместимый MIDI-маршрут с нужными SysEx, браузер и локальная сеть. В README рекомендован DrivenByMoss4Reaper для MCU."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Установка",
+          "items": [
+            "Клонируйте репозиторий и выберите тег v1.2. Создайте отдельное окружение Python, затем установите requirements.txt.",
+            "В REAPER → Preferences → Control/OSC/web добавьте MCU или DrivenByMoss и настройте MIDI вход/выход контроллера.",
+            "Добавьте OSC (Open Sound Control): Configure device IP + port, Host 127.0.0.1, Send to port 9000. В используемом ReaperOSC-профиле должны быть FRAMES s/frames/str, PLAY t/play и RECORD t/record.",
+            "Выполните python list_ports.py. В server.py задайте SEARCH_TERM как уникальную часть имени нужного MIDI input; поиск чувствителен к регистру.",
+            "Запустите python server.py из папки проекта. Откройте на другом устройстве http://<LAN-IP-компьютера>:5000/."
+          ],
+          "code": "git clone https://github.com/SadFrozz/mcudisp-web.git\ncd mcudisp-web\ngit checkout v1.2\npython -m venv .venv\n# Windows: .venv\\Scripts\\activate\n# macOS/Linux: source .venv/bin/activate\npython -m pip install -r requirements.txt\npython list_ports.py\n# Set SEARCH_TERM in server.py before starting:\npython server.py"
+        },
+        {
+          "id": "usage",
+          "title": "Использование",
+          "items": [
+            "Включите MCU-режим контроллера и убедитесь, что текст дисплея попадает во входной MIDI-порт сервера. OSC передаёт таймкод и статусы отдельно от MIDI.",
+            "Для подписей F1–F8 создайте func.txt в рабочей папке: одна подпись на строку, читаются первые восемь строк. Без читаемого файла блок скрыт. Перезапустите сервер после изменения.",
+            "Интерфейс масштабируется под экран. PLAY/STOP и зелёная/красная схема показывают состояние транспорта и записи."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения, проверенные по коду",
+          "items": [
+            "Хотя README описывает MCU-совместимые устройства в целом, server.py фильтрует конкретный Behringer SysEx-префикс (0, 32, 50, 0, 20, 120). Другой MCU-контроллер не становится совместимым только от смены SEARCH_TERM; может понадобиться изменение парсера.",
+            "OSC слушает только 127.0.0.1:9000, веб-сервер — 0.0.0.0:5000. MIDI-порт ищется по подстроке и выбирается первый подходящий. Если порт занят DAW, доступ зависит от драйвера и маршрутизации.",
+            "Нет встроенных учётных записей, TLS и настройки для публичного сервера. Код использует allow_unsafe_werkzeug=True. Это локальный дисплей для доверенной сети, а не сервис для публикации в интернете.",
+            "Нет опубликованной матрицы минимальных версий Python/ОС или подтверждения всех контроллеров. Нефиксированные зависимости могут требовать подбора совместимых версий. Физическое MIDI/OSC-оборудование в рамках подготовки портала не проверялось."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Если экран пустой",
+          "items": [
+            "Нет названий: проверьте входы через list_ports.py, SEARCH_TERM, MIDI-маршрут и SysEx-префикс. Нет таймкода: проверьте OSC 9000 и профиль ReaperOSC.",
+            "Страница недоступна с планшета: используйте LAN-адрес компьютера, ту же сеть и доступ к TCP 5000 в межсетевом экране. Не используйте 127.0.0.1 на планшете для доступа к компьютеру."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Исходники",
+          "items": [
+            "Отдельной компиляции нет. server.py — сервер, list_ports.py — список входов, templates/index.html — интерфейс. Запускать нужно локально: GitHub Pages не исполняет Python и не подключает MIDI."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Лицензия",
+          "items": [
+            "Условия распространения смотрите в LICENSE репозитория; зависимости сохраняют собственные лицензии."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "A network display",
+          "items": [
+            "A Python server receives display text over MIDI SysEx and timecode/transport over OSC, then sends updates to the browser through Socket.IO. Two 56-character lines provide eight seven-character channel cells.",
+            "Latest release: v1.2, 30 August 2025, with no binary assets. Run from source. Main differs from the tag by one README link; server code is the same."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements",
+          "items": [
+            "Python 3 and requirements.txt dependencies: mido, python-rtmidi, Flask, Flask-SocketIO, python-osc and eventlet. Dependency versions are not pinned.",
+            "REAPER, a controller or MIDI routing setup delivering the expected SysEx, a browser and a LAN. The README recommends DrivenByMoss4Reaper for MCU."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Installation",
+          "items": [
+            "Clone the repository and check out v1.2. Create a separate Python environment and install requirements.txt.",
+            "In REAPER → Preferences → Control/OSC/web, add MCU or DrivenByMoss and select the controller’s MIDI input/output.",
+            "Add OSC (Open Sound Control): Configure device IP + port, Host 127.0.0.1, Send to port 9000. The active ReaperOSC profile must include FRAMES s/frames/str, PLAY t/play and RECORD t/record.",
+            "Run python list_ports.py. Set SEARCH_TERM in server.py to a unique part of the required MIDI input name; matching is case-sensitive.",
+            "Run python server.py from the project directory. On another device open http://<computer-LAN-IP>:5000/."
+          ],
+          "code": "git clone https://github.com/SadFrozz/mcudisp-web.git\ncd mcudisp-web\ngit checkout v1.2\npython -m venv .venv\n# Windows: .venv\\Scripts\\activate\n# macOS/Linux: source .venv/bin/activate\npython -m pip install -r requirements.txt\npython list_ports.py\n# Set SEARCH_TERM in server.py before starting:\npython server.py"
+        },
+        {
+          "id": "usage",
+          "title": "Usage",
+          "items": [
+            "Enable the controller’s MCU mode and route display messages to the server’s MIDI input. OSC supplies timecode and transport independently of MIDI.",
+            "Create func.txt in the working directory for F1–F8 names: one label per line, first eight lines only. The section is hidden if the file cannot be read. Restart the server after editing.",
+            "The display scales to the screen. PLAY/STOP and the green/red color scheme indicate transport and recording state."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Source-verified limitations",
+          "items": [
+            "The README describes MCU-compatible devices generally, but server.py filters a specific Behringer SysEx prefix: (0, 32, 50, 0, 20, 120). Another MCU device may need parser changes; changing SEARCH_TERM alone does not guarantee compatibility.",
+            "OSC binds to 127.0.0.1:9000; the web server binds to 0.0.0.0:5000. MIDI selection uses the first substring match. Simultaneous DAW access depends on the MIDI driver and routing.",
+            "No built-in accounts, TLS or public-server setup. The code uses allow_unsafe_werkzeug=True. Use it as a local display on a trusted network.",
+            "There is no published minimum Python/OS matrix or coverage for all controllers. Unpinned dependencies may need compatible versions. Physical MIDI/OSC hardware was not tested while preparing this portal."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "If the display is empty",
+          "items": [
+            "No labels: check list_ports.py, SEARCH_TERM, MIDI routing and SysEx prefix. No timecode: check OSC port 9000 and the ReaperOSC profile.",
+            "If a tablet cannot reach the page, use the computer’s LAN address, the same network and firewall access to TCP 5000. A tablet’s 127.0.0.1 address points to the tablet itself."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Sources",
+          "items": [
+            "No compilation step. server.py is the server, list_ports.py lists inputs and templates/index.html is the UI. Run locally: GitHub Pages cannot execute Python or connect MIDI devices."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "See the repository’s LICENSE for distribution terms; dependencies retain their own licenses."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "server.py",
+      "list_ports.py",
+      "requirements.txt",
+      "templates/index.html"
+    ]
+  },
+  {
+    "repo": "Ath10k-airport",
+    "slug": "ath10k-airport",
+    "title": "Ath10k-airport",
+    "category": "network",
+    "platforms": [
+      "macOS Sequoia",
+      "OpenCore",
+      "QCA9377"
+    ],
+    "summary": {
+      "ru": "Экспериментальный Wi-Fi-драйвер Qualcomm Atheros для macOS с управлением через системное меню.",
+      "en": "An experimental Qualcomm Atheros Wi-Fi driver for macOS, controlled through the system Wi-Fi menu."
+    },
+    "sections": {
+      "ru": [
+        {
+          "id": "overview",
+          "title": "Статус разработки",
+          "items": [
+            "Нативный kext для OpenCore: обнаружение сетей, подключение и IPv4/IPv6 без companion-приложения, login agent, OCLP и патчей системного тома.",
+            "Опубликованных GitHub Releases нет. Номер 1.0.105 в main — метаданные драйвера, а не готовый стабильный релиз. Ветка native-sequoia-development содержит последующую разработку и карту состояния с checkpoint 1.0.114.",
+            "README ветки разработки повторяет более старое описание. Для её возможностей нужно читать docs/development/NATIVE-STATUS.md и соответствующие исходники, а не переносить обещания из одного README."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Требования и подтверждённая область",
+          "items": [
+            "Аппаратный checkpoint: QCA9377 PCI 168c:0042, subsystem 1a3b:2b51, x86_64 macOS Sequoia 15.6.1 (24G90). Другие карты и версии macOS не становятся поддерживаемыми от наличия firmware в репозитории.",
+            "OpenCore и проверенная конфигурация загрузки. Нужна сохранённая рабочая EFI и альтернативный доступ к сети. macOS 11–26 — цель разработки, а не готовая матрица совместимости."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Сборка и установка",
+          "items": [
+            "Готового релизного пакета сейчас нет. Сначала выберите зафиксированный исходный коммит для своей задачи и прочитайте руководство совместимости.",
+            "Для сборки на macOS нужны Apple command-line toolchain, Python 3 и pinned submodules. Обычная сборка main приведена ниже; результат — build/native/out/Ath10kMac.kext.",
+            "Сохраните рабочую EFI. Скопируйте функциональный Ath10kMac.kext в EFI/OC/Kexts и добавьте/обновите включённую запись Kernel → Add в config.plist.",
+            "Проверьте конфигурацию OpenCore и соответствие сборки ОС/оборудованию до перезагрузки. После загрузки используйте стандартное меню Wi-Fi и сверяйте реально загруженную сборку.",
+            "Не устанавливайте controller-only DIAGNOSTIC_STAGE=3 или криптографический диагностический вариант как полноценный Wi-Fi-драйвер."
+          ],
+          "code": "git clone --recurse-submodules https://github.com/SadFrozz/Ath10k-airport.git\ncd Ath10k-airport\nmake -j2 kext\n# Local regression suite:\nmake test-development"
+        },
+        {
+          "id": "usage",
+          "title": "Использование и ветки",
+          "items": [
+            "Main: нативное сканирование, WPA2-Personal и экспериментальный opt-in WPA3-SAE/PMF. SAE выключен в стандартной сборке. Для него README задаёт NATIVE=1 NATIVE_SAE_EXPERIMENTAL=1 NATIVE_PMF_PROBE=0 DIAGNOSTIC_STAGE=0.",
+            "Native-sequoia-development: отдельные пути OWE, WPA1, WEP и Enterprise/EAP. Карта состояния сообщает о коротких аппаратных успехах OWE/OWE Transition, WPA1-CCMP, WPA2 и WPA3, но стабильное Enterprise-подключение не принято. Наблюдение mixed TKIP+CCMP не доказывает работу pure TKIP.",
+            "Условия из development не относятся автоматически к main. Для этой ветки смотрите её собственные контракты, флаги сборки и карту состояния по ссылкам ниже."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Ограничения",
+          "items": [
+            "Драйвер в разработке: длительная стабильность, задержки, ошибки передачи и разрывы остаются предметом проверки. Короткий успешный трафик не равен сертификации совместимости.",
+            "WPA3/PMF реализованы и имеют ограниченные аппаратные наблюдения; полная совместимость, group BIP и AP-triggered rekey требуют дальнейших аппаратных подтверждений.",
+            "Host-requested roaming имеет локальные регрессии; физический переход между точками доступа не проверен. Sleep/wake отмечен как possibly working, отдельная проверка сна отложена.",
+            "AWDL/AirDrop и FT/SAE-PK не реализованы. На main Enterprise не заявлен; development содержит EAP-работу без стабильной аппаратной приёмки. Нельзя объявлять поддержку всех macOS или Qualcomm-карт.",
+            "Корневая лицензия не покрывает автоматически firmware и все зависимости; в публичном license-audit зафиксированы нерешённые вопросы совместимости лицензий."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Диагностика",
+          "items": [
+            "В Issue указывайте build macOS, PCI/subsystem IDs, версию/UUID реально загруженного драйвера и шаги воспроизведения. Перед отправкой очистите диагностику от SSID, MAC, паролей, ключей и личных путей.",
+            "Если кext не загрузился, проверьте OpenCore Kernel → Add, зависимости и подпись выбранного артефакта. При проблемах вернитесь к сохранённой рабочей EFI."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Что проверено для этой страницы",
+          "items": [
+            "Прочитаны README, compatibility, native guide, status map, история изменений, исходники NativeProfile/радиопути и различия двух актуальных веток. Проверены списки веток и отсутствие опубликованных релизов.",
+            "Сборка/установка драйвера и радиоиспытания для портала не выполнялись. Аппаратные результаты здесь — утверждения публичной карты состояния с указанной областью, а не новые испытания."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Лицензии",
+          "items": [
+            "Смотрите LICENSE, firmware/README.md, dependency guide и docs/guides/license-audit.md. Сохраняйте уведомления сторонних авторов при распространении."
+          ],
+          "code": null
+        }
+      ],
+      "en": [
+        {
+          "id": "overview",
+          "title": "Development status",
+          "items": [
+            "A native OpenCore kext for scanning, association and IPv4/IPv6 traffic without a companion app, login agent, OCLP or system-volume patches.",
+            "There are no published GitHub Releases. Main’s 1.0.105 is driver metadata, not a stable packaged release. native-sequoia-development contains later work and a status map with a 1.0.114 checkpoint.",
+            "The development branch README repeats older descriptions. Read docs/development/NATIVE-STATUS.md and its implementation for branch-specific scope rather than relying on that README alone."
+          ],
+          "code": null
+        },
+        {
+          "id": "requirements",
+          "title": "Requirements and evidenced scope",
+          "items": [
+            "Hardware checkpoint: QCA9377 PCI 168c:0042, subsystem 1a3b:2b51 on x86_64 macOS Sequoia 15.6.1 (24G90). Firmware files do not establish support for other cards or macOS versions.",
+            "OpenCore with a validated configuration, a preserved working EFI and an alternative network connection. macOS 11–26 is a development target, not a supported-version matrix."
+          ],
+          "code": null
+        },
+        {
+          "id": "install",
+          "title": "Build and installation",
+          "items": [
+            "No release package is currently published. First select a pinned source commit for your intended task and read the compatibility guide.",
+            "macOS builds require the Apple command-line toolchain, Python 3 and pinned submodules. The standard main build follows below; output is build/native/out/Ath10kMac.kext.",
+            "Preserve the working EFI. Copy a functional Ath10kMac.kext into EFI/OC/Kexts and add/update its enabled Kernel → Add entry in config.plist.",
+            "Validate OpenCore configuration and OS/hardware suitability before rebooting. After loading, use the standard Wi-Fi menu and verify the actual loaded build.",
+            "Do not install controller-only DIAGNOSTIC_STAGE=3 or cryptography diagnostics as functional Wi-Fi drivers."
+          ],
+          "code": "git clone --recurse-submodules https://github.com/SadFrozz/Ath10k-airport.git\ncd Ath10k-airport\nmake -j2 kext\n# Local regression suite:\nmake test-development"
+        },
+        {
+          "id": "usage",
+          "title": "Usage and branches",
+          "items": [
+            "Main: native scanning, WPA2-Personal and opt-in experimental WPA3-SAE/PMF. SAE is disabled by default. The README specifies NATIVE=1 NATIVE_SAE_EXPERIMENTAL=1 NATIVE_PMF_PROBE=0 DIAGNOSTIC_STAGE=0.",
+            "native-sequoia-development adds OWE, WPA1, WEP and Enterprise/EAP paths. Its status map reports bounded hardware successes for OWE/OWE Transition, WPA1-CCMP, WPA2 and WPA3, but no stable Enterprise acceptance. A mixed TKIP+CCMP observation does not establish pure TKIP operation.",
+            "Development observations do not automatically apply to main. Use that branch’s own contracts, build flags and status map linked below."
+          ],
+          "code": null
+        },
+        {
+          "id": "limits",
+          "title": "Limitations",
+          "items": [
+            "A development driver: prolonged stability, latency, transmission errors and disconnects remain under investigation. Short successful traffic is not interoperability certification.",
+            "WPA3/PMF are implemented with bounded hardware observations. Full interoperability, group BIP and AP-triggered rekey still need hardware evidence.",
+            "Host-requested roaming has local regressions; physical inter-AP handoff is untested. Sleep/wake is labelled possibly working, with platform sleep investigation deferred.",
+            "AWDL/AirDrop and FT/SAE-PK are not implemented. Main does not advertise Enterprise; development includes EAP work without stable hardware acceptance. Do not infer support for all macOS versions or Qualcomm cards.",
+            "The root license does not automatically cover firmware and dependencies. The public license audit records unresolved compatibility questions."
+          ],
+          "code": null
+        },
+        {
+          "id": "troubleshoot",
+          "title": "Diagnostics",
+          "items": [
+            "Report the macOS build, PCI/subsystem IDs, actual loaded driver version/UUID and reproduction steps. Remove SSIDs, MAC addresses, passwords, keys and personal paths from shared diagnostics.",
+            "If the kext does not load, check OpenCore Kernel → Add, dependencies and the selected artifact’s signature. Restore your saved working EFI if needed."
+          ],
+          "code": null
+        },
+        {
+          "id": "build",
+          "title": "Verification behind this page",
+          "items": [
+            "Reviewed README, compatibility, native guide, status maps, changelog, NativeProfile/radio source and differences between both current branches. Checked branch lists and the absence of published releases.",
+            "No driver build, installation or radio testing was performed for this portal. Hardware results here are scoped statements from the public status map, not new tests."
+          ],
+          "code": null
+        },
+        {
+          "id": "license",
+          "title": "Licensing",
+          "items": [
+            "See LICENSE, firmware/README.md, the dependency guide and docs/guides/license-audit.md. Retain third-party notices when distributing."
+          ],
+          "code": null
+        }
+      ]
+    },
+    "sources": [
+      "README.md",
+      "docs/compatibility/COMPATIBILITY.md",
+      "docs/guides/native-sequoia.md",
+      "docs/development/NATIVE-STATUS.md",
+      "docs/guides/license-audit.md",
+      "src/macos/native/Ath10kNativeProfile.hpp",
+      "CHANGELOG.md"
+    ]
+  }
+]

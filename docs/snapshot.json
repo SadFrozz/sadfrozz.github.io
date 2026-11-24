@@ -1,0 +1,209 @@
+{
+  "checked_on": "2026-11-24",
+  "source": "Public GitHub repositories, inspected through connected GitHub and pinned source checkouts.",
+  "scope": "Documentation and source review only; no fresh project binaries, device tests or driver installation.",
+  "projects": [
+    {
+      "repo": "FRZZ-Reaper-Media-Import",
+      "commit": "4f538bdf34adef81403268e0c4bd0890f2a458ca",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "4f538bdf34adef81403268e0c4bd0890f2a458ca"
+        }
+      ],
+      "release": {
+        "tag": "v1.2.0",
+        "date": "2026-11-22T08:39:15Z",
+        "prerelease": false,
+        "assets": [
+          {
+            "name": "FRZZ-Reaper-Media-Import-1.2.0-macos-universal.zip",
+            "url": "https://github.com/SadFrozz/FRZZ-Reaper-Media-Import/releases/download/v1.2.0/FRZZ-Reaper-Media-Import-1.2.0-macos-universal.zip"
+          },
+          {
+            "name": "FRZZ-Reaper-Media-Import-1.2.0-windows-x64.zip",
+            "url": "https://github.com/SadFrozz/FRZZ-Reaper-Media-Import/releases/download/v1.2.0/FRZZ-Reaper-Media-Import-1.2.0-windows-x64.zip"
+          },
+          {
+            "name": "SHA256SUMS.txt",
+            "url": "https://github.com/SadFrozz/FRZZ-Reaper-Media-Import/releases/download/v1.2.0/SHA256SUMS.txt"
+          }
+        ],
+        "commit": "5a36421e91517a58095c03070fa35f4dd43b5893",
+        "difference": "39 files changed, 5220 insertions(+), 241 deletions(-)"
+      },
+      "reviewed_files": [
+        "README.md",
+        "CHANGELOG.md",
+        "src/plugin.cpp",
+        "src/container_audio.cpp",
+        "src/container_native_video.cpp",
+        "src/video_settings.cpp",
+        "CMakeLists.txt"
+      ]
+    },
+    {
+      "repo": "dLab.Series",
+      "commit": "c79dedc6c4478a786cac1431b7ae57dbc890edad",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "c79dedc6c4478a786cac1431b7ae57dbc890edad"
+        }
+      ],
+      "release": {
+        "tag": "v1.0",
+        "date": "2026-10-11T09:39:26Z",
+        "prerelease": false,
+        "assets": [
+          {
+            "name": "dLab.Series-macOS-Universal.pkg",
+            "url": "https://github.com/SadFrozz/dLab.Series/releases/download/v1.0/dLab.Series-macOS-Universal.pkg"
+          },
+          {
+            "name": "dLab.Series-Windows-x64-Setup.exe",
+            "url": "https://github.com/SadFrozz/dLab.Series/releases/download/v1.0/dLab.Series-Windows-x64-Setup.exe"
+          },
+          {
+            "name": "SHA256SUMS.txt",
+            "url": "https://github.com/SadFrozz/dLab.Series/releases/download/v1.0/SHA256SUMS.txt"
+          }
+        ],
+        "commit": "c79dedc6c4478a786cac1431b7ae57dbc890edad",
+        "difference": "identical source trees"
+      },
+      "reviewed_files": [
+        "README.md",
+        "docs/BUILDING.md",
+        "NOTICE.md",
+        "src/modules/Channel286/src/PluginProcessor.cpp",
+        "src/modules/Channel376/src/ParameterContract.h",
+        "src/bundle/Processors.cpp",
+        "CMakeLists.txt"
+      ]
+    },
+    {
+      "repo": "reaper_webview",
+      "commit": "fd2fd171cfe4bcc423c5ae81a338f86f35e0577e",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "fd2fd171cfe4bcc423c5ae81a338f86f35e0577e"
+        }
+      ],
+      "release": {
+        "tag": "v0.2.0",
+        "date": "2026-09-11T20:13:34Z",
+        "prerelease": true,
+        "assets": [
+          {
+            "name": "Reaper-WebView-0.2.0-macos-universal.zip",
+            "url": "https://github.com/SadFrozz/reaper_webview/releases/download/v0.2.0/Reaper-WebView-0.2.0-macos-universal.zip"
+          },
+          {
+            "name": "Reaper-WebView-0.2.0-windows-x64.zip",
+            "url": "https://github.com/SadFrozz/reaper_webview/releases/download/v0.2.0/Reaper-WebView-0.2.0-windows-x64.zip"
+          },
+          {
+            "name": "SHA256SUMS.txt",
+            "url": "https://github.com/SadFrozz/reaper_webview/releases/download/v0.2.0/SHA256SUMS.txt"
+          }
+        ],
+        "commit": "fd2fd171cfe4bcc423c5ae81a338f86f35e0577e",
+        "difference": "identical source trees"
+      },
+      "reviewed_files": [
+        "README.md",
+        "CHANGELOG.md",
+        "src/api.mm",
+        "src/settings.mm",
+        "src/platform/windows/webview_win.cpp",
+        "CMakeLists.txt"
+      ]
+    },
+    {
+      "repo": "FRZZ-reaper-web-prompter",
+      "commit": "8dceb917a4afca00833e247ceac68fbeb6c5e789",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "8dceb917a4afca00833e247ceac68fbeb6c5e789"
+        }
+      ],
+      "release": {
+        "tag": "v1.5.1",
+        "date": "2025-11-18T23:21:01Z",
+        "prerelease": false,
+        "assets": [
+          {
+            "name": "FRZZ-reaper-web-prompter-1.5.1-mac.command",
+            "url": "https://github.com/SadFrozz/FRZZ-reaper-web-prompter/releases/download/v1.5.1/FRZZ-reaper-web-prompter-1.5.1-mac.command"
+          },
+          {
+            "name": "FRZZ-reaper-web-prompter-1.5.1-win.exe",
+            "url": "https://github.com/SadFrozz/FRZZ-reaper-web-prompter/releases/download/v1.5.1/FRZZ-reaper-web-prompter-1.5.1-win.exe"
+          }
+        ],
+        "commit": "8dceb917a4afca00833e247ceac68fbeb6c5e789",
+        "difference": "identical source trees"
+      },
+      "reviewed_files": [
+        "README.md",
+        "Scripts/FRZZ_web_prompter_backend.lua",
+        "Scripts/FRZZ_web_prompter.lua",
+        "installer.py",
+        ".github/workflows/main.yaml"
+      ]
+    },
+    {
+      "repo": "mcudisp-web",
+      "commit": "74e22ba3811ecafc2d8811725ce90242362c6eae",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "74e22ba3811ecafc2d8811725ce90242362c6eae"
+        }
+      ],
+      "release": {
+        "tag": "v1.2",
+        "date": "2025-08-30T14:23:07Z",
+        "prerelease": false,
+        "assets": [],
+        "commit": "90d2432b3b2eb2e183b17108a6a873386f630d41",
+        "difference": "1 file changed, 1 insertion(+), 1 deletion(-)"
+      },
+      "reviewed_files": [
+        "README.md",
+        "server.py",
+        "list_ports.py",
+        "requirements.txt",
+        "templates/index.html"
+      ]
+    },
+    {
+      "repo": "Ath10k-airport",
+      "commit": "302a8c8291c2af16150204d5167b3f3b0e3afca7",
+      "branches": [
+        {
+          "name": "main",
+          "commit": "302a8c8291c2af16150204d5167b3f3b0e3afca7"
+        },
+        {
+          "name": "native-sequoia-development",
+          "commit": "4b903145819ac42efd3e665be21da578314bf448"
+        }
+      ],
+      "release": null,
+      "reviewed_files": [
+        "README.md",
+        "docs/compatibility/COMPATIBILITY.md",
+        "docs/guides/native-sequoia.md",
+        "docs/development/NATIVE-STATUS.md",
+        "docs/guides/license-audit.md",
+        "src/macos/native/Ath10kNativeProfile.hpp",
+        "CHANGELOG.md"
+      ]
+    }
+  ]
+}
