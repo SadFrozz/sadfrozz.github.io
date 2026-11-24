@@ -14,6 +14,7 @@ T={
 'en':dict(home='Projects',audit='Sources',docs='Documentation',all='All projects',reaper='REAPER tools',audio='Audio processing',network='Network drivers',code='Source code',release='Release',norelease='No release',pre='Pre-release',read='Read the guide',requirements='Requirements',contents='On this page',verified='Reviewed 24 Nov 2026',foot='Open projects by SadFrozz. Guides, downloads and source code.',foot2='No analytics or external fonts.',search='Find a project',empty='No matching projects. Try another search or category.',downloads='Downloads',source='Reviewed sources',review='Documentation checked against README files, source, releases and branches. The projects themselves were not built or run while preparing this portal.',other='More projects',next='Explore',issues='Report an issue',branch='Branches and versions',main='Main source',download='Download',support='Project support',skip='Skip to content')}
 
 def home(lang): return '/' if lang=='ru' else '/en/'
+def name(p,lang): return p.get('title_en',p['title']) if lang=='en' else p['title']
 def guide(p,lang): return f'/{lang}/projects/{p["slug"]}/'
 def repo(p): return 'https://github.com/SadFrozz/'+p['repo']
 def meta(p): return next(s for s in SNAPSHOT['projects'] if s['repo']==p['repo'])
@@ -57,9 +58,9 @@ def visual(p):
 
 def card(p,lang,n):
     t=T[lang]; m=meta(p); status='experimental' if not m['release'] or m['release']['prerelease'] else ''
-    return f'''<article class="project-card" data-category="{p['category']}" data-search="{E(p['title']+' '+p['repo']+' '+p['summary'][lang]+' '+' '.join(p['platforms']),quote=True)}">
+    return f'''<article class="project-card" data-category="{p['category']}" data-search="{E(name(p,lang)+' '+p['repo']+' '+p['summary'][lang]+' '+' '.join(p['platforms']),quote=True)}">
 <div class="card-top"><span class="eyebrow">{n:02d} / {t[p['category']]}</span><span class="status {status}">{E(label(p,lang))}</span></div>
-{visual(p)}<div class="card-copy"><h3>{a(guide(p,lang),p['title'])}</h3><p>{E(p['summary'][lang])}</p><div class="tags">{''.join(f'<span>{E(s)}</span>' for s in p['platforms'])}</div></div>
+{visual(p)}<div class="card-copy"><h3>{a(guide(p,lang),name(p,lang))}</h3><p>{E(p['summary'][lang])}</p><div class="tags">{''.join(f'<span>{E(s)}</span>' for s in p['platforms'])}</div></div>
 <div class="card-links">{a(guide(p,lang),t['read']+' ↗')}{a(repo(p),'GitHub','quiet')}</div></article>'''
 
 def portal(lang):
@@ -133,14 +134,14 @@ def documentation(p,lang):
         release_link=t['norelease'];assets='<li>'+a(repo(p)+'/tree/'+m['commit'],t['main']+' ↗','button download')+'</li>'
     sections+=f'<section id="downloads" class="doc-section"><h2>{t["downloads"]}</h2><p>{release_link}</p><ul class="download-list">{assets}</ul></section>'
     sections+=f'<section id="sources" class="doc-section sources"><h2>{t["source"]}</h2><p>{t["review"]}</p><p>{t["verified"]} · main <code>{m["commit"][:12]}</code></p><h3>{t["branch"]}</h3><ul>{branchlist}</ul><ul>{source_links(p,lang)}</ul>{a(f"/{lang}/sources/",t["audit"]+" ↗")}</section>'
-    other=''.join(a(guide(q,lang),q['title']+' ↗') for q in PROJECTS if q['slug']!=p['slug'])
-    body=f'''<main id="main" class="wrap docs-wrap"><div class="breadcrumbs">{a(home(lang),t['home'])}<span>/</span><span>{E(p['title'])}</span></div>
+    other=''.join(a(guide(q,lang),name(q,lang)+' ↗') for q in PROJECTS if q['slug']!=p['slug'])
+    body=f'''<main id="main" class="wrap docs-wrap"><div class="breadcrumbs">{a(home(lang),t['home'])}<span>/</span><span>{E(name(p,lang))}</span></div>
 <div class="docs-layout"><aside class="toc"><p class="eyebrow">{t['contents']}</p><nav aria-label="{t['contents']}">{links}</nav></aside>
-<article class="doc-article"><div class="doc-header"><p class="eyebrow accent">{t[p['category']]} / {t['docs']}</p><h1>{E(p['title'])}</h1><p class="doc-lead">{E(p['summary'][lang])}</p><div class="tags">{''.join('<span>'+E(s)+'</span>' for s in p['platforms'])}</div>
+<article class="doc-article"><div class="doc-header"><p class="eyebrow accent">{t[p['category']]} / {t['docs']}</p><h1>{E(name(p,lang))}</h1><p class="doc-lead">{E(p['summary'][lang])}</p><div class="tags">{''.join('<span>'+E(s)+'</span>' for s in p['platforms'])}</div>
 <div class="doc-actions">{a('#downloads',t['downloads']+' ↓','button primary')}{a(repo(p),t['code']+' ↗','button outline')}</div><div class="release-note"><span class="status">{E(label(p,lang))}</span><span>{t['verified']}</span></div></div>
 {sections}<div class="support-box"><h3>{t['support']}</h3><p>{'Ошибки и предложения обсуждаются в Issues исходного проекта.' if lang=='ru' else 'Discuss bugs and suggestions in the original project’s Issues.'}</p>{a(repo(p)+'/issues',t['issues']+' ↗','text-link')}</div></article></div>
 <section class="more-projects"><h2>{t['other']}</h2><div>{other}</div></section></main>'''
-    write(path,shell(lang,p['title'],p['summary'][lang],path,alt,body,'documentation'))
+    write(path,shell(lang,name(p,lang),p['summary'][lang],path,alt,body,'documentation'))
 
 def audit(lang):
     t=T[lang];ru=lang=='ru';title='Источники и проверка' if ru else 'Sources and verification'
@@ -148,7 +149,7 @@ def audit(lang):
     rows=''
     for p in PROJECTS:
         m=meta(p);r=m['release']
-        rows+='<tr><th scope="row">'+a(guide(p,lang),p['title'])+'</th><td>'+a(repo(p)+'/tree/'+m['commit'],m['commit'][:12])+'</td><td>'+(a(repo(p)+'/releases/tag/'+r['tag'],label(p,lang)) if r else t['norelease'])+'</td></tr>'
+        rows+='<tr><th scope="row">'+a(guide(p,lang),name(p,lang))+'</th><td>'+a(repo(p)+'/tree/'+m['commit'],m['commit'][:12])+'</td><td>'+(a(repo(p)+'/releases/tag/'+r['tag'],label(p,lang)) if r else t['norelease'])+'</td></tr>'
     method=[
       'Изучены README, ключевые исходники, требования сборки, опубликованные релизы и все ветки, возвращённые GitHub API. Сопоставлены деревья main и последних тегов.','Media Import: во время финальной проверки опубликован v1.3.0. Его тег и main имеют одинаковое дерево исходников. dLab.Series, WebView и Web Prompter также имеют одинаковые деревья main и соответствующих релизных тегов. У MCU Display различается только ссылка в README.','Ath10k: изучены main и native-sequoia-development, включая отдельную карту состояния разработки. Отсутствие релизов не заменено обещанием стабильной сборки.','Под «проверено» понимается проверка документации по коду и публичным источникам. Новых проверок аудио, REAPER, оборудования или сборок 1.3.0 не выполнялось.','Портал содержит только специально подготовленный текст и сведения из публичных репозиториев. Личные файлы, рабочие проекты, пароли, ключи, сетевые дампы и настройки в него не копировались.'
     ] if ru else [
@@ -157,7 +158,7 @@ def audit(lang):
     details=''
     for p in PROJECTS:
         m=meta(p)
-        details+=f'<section class="doc-section"><h2>{E(p["title"])}</h2><ul>{source_links(p,lang)}</ul></section>'
+        details+=f'<section class="doc-section"><h2>{E(name(p,lang))}</h2><ul>{source_links(p,lang)}</ul></section>'
     body=f'<main id="main" class="wrap audit-wrap"><p class="eyebrow accent">SOURCE / SNAPSHOT 2026-11-24</p><h1>{title}</h1><p class="doc-lead">{intro}</p><div class="table-scroll"><table><thead><tr><th>{t["home"]}</th><th>main</th><th>{t["release"]}</th></tr></thead><tbody>{rows}</tbody></table></div><section class="doc-section"><h2>{"Область проверки" if ru else "Review scope"}</h2><ul>'+''.join('<li>'+E(x)+'</li>' for x in method)+f'</ul><p>{a("/snapshot.json","JSON snapshot ↗")}</p></section>{details}</main>'
     path=f'/{lang}/sources/';alt=f'/{"en" if ru else "ru"}/sources/'
     write(path,shell(lang,title,intro,path,alt,body,'audit'))

@@ -2,15 +2,15 @@
   {
     "repo": "FRZZ-Reaper-Media-Import",
     "slug": "media-import",
-    "title": "FRZZ REAPER Media Import",
+    "title": "Reaper Media Import",
     "category": "reaper",
     "platforms": [
       "Windows x64",
       "macOS 11+"
     ],
     "summary": {
-      "ru": "Dolby, DTS, субтитры и HDR-тонмаппинг в REAPER. Выбор аудиодорожки в MKV и MP4 без конвертации.",
-      "en": "Dolby, DTS, subtitles and HDR tone mapping in REAPER. Select MKV/MP4 audio tracks without conversion."
+      "ru": "Расширенная поддержка кодеков, работа с HDR-видео без необходимости конвертации, а также импорт субтитров на дорожку как текст.",
+      "en": "Extended codec support, HDR video without conversion, and subtitle import onto a track as text."
     },
     "sections": {
       "ru": [
@@ -202,8 +202,8 @@
       "VST3 · VST2 · AU"
     ],
     "summary": {
-      "ru": "Два канала обработки: dLab 286 и dLab 376. Компрессия, де-эссер и работа с тембром в одном окне.",
-      "en": "Two channel strips: dLab 286 and dLab 376. Compression, de-essing and tone shaping in one window."
+      "ru": "Плагины серии dLab вдохновлены channel-strip устройствами от dbx, говорят неотличимо от оригинала.",
+      "en": "The dLab plugins are inspired by dbx channel strips, said to sound indistinguishable from the originals."
     },
     "sections": {
       "ru": [
@@ -558,7 +558,7 @@
   {
     "repo": "FRZZ-reaper-web-prompter",
     "slug": "web-prompter",
-    "title": "FRZZ Web Prompter",
+    "title": "Интерактивный текстовый монитор",
     "category": "reaper",
     "platforms": [
       "REAPER",
@@ -566,8 +566,8 @@
       "LAN"
     ],
     "summary": {
-      "ru": "Текстовый монитор для записи и монтажа: реплики, роли, актёры и синхронизация с таймлайном.",
-      "en": "A text monitor for recording and editing: cues, roles, actors and timeline synchronization."
+      "ru": "Интерактивная монтажка (телесуфлёр) для работы с озвучкой. Поддерживается работа по сети с мобильных устройств.",
+      "en": "An interactive cue sheet and teleprompter for voice-over work. Supports mobile devices over the network."
     },
     "sections": {
       "ru": [
@@ -737,7 +737,8 @@
       "Scripts/FRZZ_web_prompter.lua",
       "installer.py",
       ".github/workflows/main.yaml"
-    ]
+    ],
+    "title_en": "Interactive Text Monitor"
   },
   {
     "repo": "mcudisp-web",
@@ -750,8 +751,8 @@
       "LAN"
     ],
     "summary": {
-      "ru": "Дисплей контроллера на телефоне или планшете: названия каналов, таймкод и состояние записи.",
-      "en": "Put your controller display on a phone or tablet: channel labels, timecode and recording state."
+      "ru": "Веб-реализация дисплея Mackie Control Universal. Работает с совместимыми устройствами, must-have для безэкранных контроллеров.",
+      "en": "A web implementation of the Mackie Control Universal display. Works with compatible devices, a must-have for controllers without a screen."
     },
     "sections": {
       "ru": [
