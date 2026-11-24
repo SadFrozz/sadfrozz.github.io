@@ -147,7 +147,7 @@ def documentation(p,lang):
         preview = project_illustration(p, lang)
     elif p['slug'] in ('web-prompter', 'mcudisp-web'):
         preview = project_screenshot(p, lang)
-    links=''.join(a('#'+s['id'],s['title']) for s in p['sections'][lang])+a('#downloads',t['downloads'])+a('#sources',t['source'])
+    links=''.join(a('#'+s['id'],s['title']) for s in p['sections'][lang])+a('#downloads',t['downloads'])
     sections=''
     for s in p['sections'][lang]:
         tag='ol' if s['id']=='install' else 'ul'
@@ -155,7 +155,6 @@ def documentation(p,lang):
         if s['code']:sections+='<div class="code-block"><pre><code>'+E(s['code'])+'</code></pre></div>'
         if s['id']=='usage' and p['slug']=='web-prompter':sections+='<p class="related">'+a(f'/{lang}/projects/media-import/','Media Import ↗')+' · '+a(f'/{lang}/projects/webview/','REAPER WebView ↗')+'</p>'
         sections+='</section>'
-    branchlist=''.join('<li>'+a(repo(p)+'/tree/'+b['commit'],b['name'])+f' <code>{b["commit"][:12]}</code></li>' for b in m['branches'])
     assets=''
     if r:
         for asset in r['assets']:
@@ -169,7 +168,6 @@ def documentation(p,lang):
     else:
         release_link=t['norelease'];assets='<li>'+a(repo(p)+'/tree/'+m['commit'],t['main']+' ↗','button download')+'</li>'
     sections+=f'<section id="downloads" class="doc-section"><h2>{t["downloads"]}</h2><p>{release_link}</p><ul class="download-list">{assets}</ul></section>'
-    sections+=f'<section id="sources" class="doc-section sources"><h2>{t["source"]}</h2><p>{t["review"]}</p><p>{t["verified"]} · main <code>{m["commit"][:12]}</code></p><h3>{t["branch"]}</h3><ul>{branchlist}</ul><ul>{source_links(p,lang)}</ul>{a(f"/{lang}/sources/",t["audit"]+" ↗")}</section>'
     other=''.join(a(guide(q,lang),name(q,lang)+' ↗') for q in PROJECTS if q['slug']!=p['slug'])
     body=f'''<main id="main" class="wrap docs-wrap"><div class="breadcrumbs">{a(home(lang),t['home'])}<span>/</span><span>{E(name(p,lang))}</span></div>
 <div class="docs-layout"><aside class="toc"><p class="eyebrow">{t['contents']}</p><nav aria-label="{t['contents']}">{links}</nav></aside>
@@ -194,7 +192,8 @@ def audit(lang):
     details=''
     for p in PROJECTS:
         m=meta(p)
-        details+=f'<section class="doc-section"><h2>{E(name(p,lang))}</h2><ul>{source_links(p,lang)}</ul></section>'
+        branches = ''.join(f'<li>{a(repo(p) + "/tree/" + branch["commit"], branch["name"])} <code>{branch["commit"][:12]}</code></li>' for branch in m['branches'])
+        details+=f'<section class="doc-section"><h2>{E(name(p,lang))}</h2><h3>{t["branch"]}</h3><ul>{branches}</ul><ul>{source_links(p,lang)}</ul></section>'
     body=f'<main id="main" class="wrap audit-wrap"><p class="eyebrow accent">SOURCE / SNAPSHOT 2026-11-24</p><h1>{title}</h1><p class="doc-lead">{intro}</p><div class="table-scroll"><table><thead><tr><th>{t["home"]}</th><th>main</th><th>{t["release"]}</th></tr></thead><tbody>{rows}</tbody></table></div><section class="doc-section"><h2>{"Область проверки" if ru else "Review scope"}</h2><ul>'+''.join('<li>'+E(x)+'</li>' for x in method)+f'</ul><p>{a("/snapshot.json","JSON snapshot ↗")}</p></section>{details}</main>'
     path=f'/{lang}/sources/';alt=f'/{"en" if ru else "ru"}/sources/'
     write(path,shell(lang,title,intro,path,alt,body,'audit'))
