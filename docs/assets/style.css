@@ -89,6 +89,10 @@ thead { background: light-dark(#e8ebdf, #303030); }
 
 .site-header nav a[aria-current=page] { color: var(--orange); }
 .brand-logo { display: block; width: clamp(116px, 22vw, 145px); height: auto; }
+@media (min-width: 481px) and (max-width: 600px) {
+  .site-header nav { order: 3; width: 100%; margin-left: 0; justify-content: space-between; border-top: 1px solid #65675f; padding-top: 9px; }
+  .header-options { margin-left: auto; }
+}
 .about-profile { max-width: 930px; margin: clamp(24px, 5vw, 60px) auto; padding: clamp(20px, 5vw, 46px); color: var(--ink); background: light-dark(#f1e5cd, #232323); border: 1px solid light-dark(#cbbb9f, #424242); box-shadow: 0 7px 24px #0002; font-family: "Courier New", Courier, monospace; }
 .dossier-heading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(16px, 4vw, 40px); align-items: center; border-bottom: 2px solid var(--accent-ink); padding-bottom: clamp(16px, 3vw, 27px); margin-bottom: clamp(18px, 3vw, 28px); }
 .about-portrait { display: block; width: 100%; height: auto; border: 1px solid light-dark(#8f8068, #595959); }

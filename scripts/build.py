@@ -9,6 +9,7 @@ PROJECTS=json.loads((ROOT/'content/projects.json').read_text(encoding='utf-8'))
 SNAPSHOT=json.loads((ROOT/'content/snapshot.json').read_text(encoding='utf-8'))
 E=html.escape
 BASE='https://sadfrozz.github.io'
+DONATE_URL = 'https://yoomoney.ru/fundraise/1CI7385E2CO.250904'
 SITE_IMAGE = ('/assets/sadfrozz-share.jpg', 1200, 630)
 PORTRAIT_IMAGE = ('/assets/frozz-portrait-angles.jpg', 1400, 700)
 SCREENSHOTS = {
@@ -37,6 +38,7 @@ def write(path,content):
 def shell(lang,title,description,path,alternate,body,kind='', *, image=SITE_IMAGE, structured=None):
     t=T[lang]; altlang='en' if lang=='ru' else 'ru'
     logo = '<img class="brand-logo" src="/assets/sadfrozz-logo.svg" alt="">'
+    donate = a(DONATE_URL, 'Поддержать ↗' if lang == 'ru' else 'Support ↗')
     headline = E(title + ' · SadFrozz', quote=True)
     summary = E(description, quote=True)
     if path == '/404.html':
@@ -76,11 +78,11 @@ def shell(lang,title,description,path,alternate,body,kind='', *, image=SITE_IMAG
 <script src="/assets/theme.js"></script><script src="/assets/site.js" defer></script></head>
 <body class="{kind}"><a class="skip" href="#main">{t['skip']}</a>
 <header class="site-header"><div class="header-inner"><a href="{home(lang)}" class="brand" aria-label="SadFrozz">{logo}</a>
-<nav aria-label="{'Навигация' if lang=='ru' else 'Navigation'}">{a(home(lang)+'#projects',t['home'])}<a href="{about_path(lang)}"{' aria-current="page"' if kind=='about-page' else ''}>{'Обо мне' if lang=='ru' else 'About'}</a>{a('https://github.com/SadFrozz','GitHub ↗')}</nav>
+<nav aria-label="{'Навигация' if lang=='ru' else 'Navigation'}">{a(home(lang)+'#projects',t['home'])}<a href="{about_path(lang)}"{' aria-current="page"' if kind=='about-page' else ''}>{'Обо мне' if lang=='ru' else 'About'}</a>{a('https://github.com/SadFrozz','GitHub ↗')}{donate}</nav>
 <div class="header-options"><div class="language" aria-label="Language / Язык">{a(path if lang=='ru' else alternate,'RU','active' if lang=='ru' else '')}{a(path if lang=='en' else alternate,'EN','active' if lang=='en' else '')}</div>
 <button class="theme-toggle" type="button" aria-label="{'Тёмная тема' if lang=='ru' else 'Dark theme'}" aria-pressed="false" hidden><span aria-hidden="true">◐</span></button></div></div></header>
 {body}
-<footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta"><span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
+<footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta">{donate}<span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
 
 def project_screenshot(p, lang, thumbnail=False):
     russian = lang == 'ru'
@@ -260,7 +262,7 @@ def about(lang):
 <p>{E(sound)}</p><p>{editing}</p><p>{E(software)}</p>
 <p class="dossier-character">{E(character)}</p>
 <p class="dossier-character">{E(closing)}</p>
-<div class="doc-actions">{a('https://t.me/s/SadFrozz',channel,'button primary')}{a('https://github.com/SadFrozz','GitHub ↗','button outline')}</div>
+<div class="doc-actions">{a('https://t.me/s/SadFrozz',channel,'button primary')}{a('https://github.com/SadFrozz','GitHub ↗','button outline')}{a(DONATE_URL,'Поддержать ↗' if lang == 'ru' else 'Support ↗','button outline')}</div>
 </div></article></main>'''
     profile = {'@type': 'ProfilePage', 'url': BASE + path, 'inLanguage': lang, 'mainEntity': {
         '@type': 'Person', '@id': BASE + about_path('ru') + '#frozz', 'name': name,
