@@ -9,8 +9,8 @@
       "macOS 11+"
     ],
     "summary": {
-      "ru": "Dolby, DTS и субтитры прямо в проект. Выбор аудиодорожки в MKV и MP4 без промежуточной конвертации.",
-      "en": "Bring Dolby, DTS and subtitles into your project. Choose an MKV or MP4 audio track without an intermediate conversion."
+      "ru": "Dolby, DTS, субтитры и HDR-тонмаппинг в REAPER. Выбор аудиодорожки в MKV и MP4 без конвертации.",
+      "en": "Dolby, DTS, subtitles and HDR tone mapping in REAPER. Select MKV/MP4 audio tracks without conversion."
     },
     "sections": {
       "ru": [
@@ -19,7 +19,7 @@
           "title": "Что делает расширение",
           "items": [
             "Нативное расширение дополняет импорт REAPER: raw Dolby/DTS/MLP, потоковое чтение TrueHD+AC3, ASS/SSA/SRT/WebVTT и выбор звука в многодорожечных MKV/MP4. Аудио и видео читаются из исходного контейнера.",
-            "Опубликованный релиз: v1.2.0 от 22 ноября 2026 года. В main уже записан v1.3.0 от 24 ноября с HDR-тонмаппингом и страницей настроек. На момент проверки отдельного релиза v1.3.0 нет. Эти возможности main не следует ожидать от скачанного v1.2.0."
+            "Опубликованный релиз: v1.3.0 от 24 ноября 2026 года. В нём добавлены аппаратный HDR-тонмаппинг и страница настроек Media Import. На момент финальной проверки main совпадает с тегом v1.3.0."
           ],
           "code": null
         },
@@ -36,7 +36,7 @@
           "id": "install",
           "title": "Установка",
           "items": [
-            "Скачайте архив v1.2.0 для Windows или macOS по ссылкам ниже. При необходимости сверьте SHA256SUMS.txt из того же релиза.",
+            "Скачайте архив v1.3.0 для Windows или macOS по ссылкам ниже. При необходимости сверьте SHA256SUMS.txt из того же релиза.",
             "В REAPER откройте Options → Show REAPER resource path in explorer/finder. Закройте REAPER.",
             "Скопируйте reaper_frzz_media_import.dll (Windows) или reaper_frzz_media_import.dylib (macOS) в UserPlugins внутри папки ресурсов.",
             "Разместите там же shared-библиотеки FFmpeg подходящей архитектуры. В Windows скопируйте DLL из bin полной shared-сборки; в macOS используйте совместимые dylib или ссылки на установленные библиотеки.",
@@ -51,7 +51,8 @@
             "Перетащите поддерживаемое raw-аудио в проект или вставьте его обычной командой импорта. Для .thd+ac3 читается TrueHD-поток; промежуточный файл не создаётся.",
             "Вставьте MKV/MP4 с несколькими аудиопотоками и выберите дорожку по языку, названию, кодеку и каналам. Пункт Item → Audio track или контекстное меню меняет дорожку активного тейка. Выбор сохраняется в проекте; Undo/Redo работают одним шагом.",
             "ASS/SSA/SRT/VTT становятся текстовыми айтемами с таймингом относительно позиции импорта. Поддерживаются UTF-8 и UTF-16 LE/BE с BOM. Это можно использовать как подготовку текста для Web Prompter.",
-            "В main v1.3.0 добавлены Preferences → Plug-ins → Media Import, тонмаппинг HDR10/HDR10+/Dolby Vision и исправления HEVC. Это отдельный путь сборки для Windows x64 и Intel Mac; не часть опубликованного v1.2.0."
+            "В Preferences → Plug-ins → Media Import настраиваются выбор дорожек, HDR/Dolby Vision → SDR, исправления HEVC и пропуск кадров при перемотке. Apply действует без перезапуска. Аппаратный HDR доступен на Windows x64 и Intel Mac; кэш Windows хранится в UserPlugins/Shaders.",
+            "Dolby Vision Profile 5 использует RPU, Profile 7 — базовый слой с RPU, Profile 8.1 — базовый HDR10. Это границы реализации из релизного описания, а не обещание обработки всех вариантов Dolby Vision."
           ],
           "code": null
         },
@@ -80,8 +81,8 @@
           "id": "build",
           "title": "Сборка из исходников",
           "items": [
-            "Для воспроизведения релиза используйте тег v1.2.0; для HDR-разработки main — зафиксированный ниже коммит и его README. Нужны CMake 3.24+, submodules, Visual Studio 2022/Windows SDK или Xcode Command Line Tools.",
-            "Команды для Windows после клонирования с --recurse-submodules приведены ниже. macOS использует presets macos-universal и mac-universal-release. Сборка main с HDR требует дополнительных зависимостей libplacebo и заголовков FFmpeg; обычной сборки релизного тега для этого недостаточно."
+            "Для воспроизведения релиза используйте тег v1.3.0. Нужны CMake 3.24+, submodules, Visual Studio 2022/Windows SDK или Xcode Command Line Tools.",
+            "Команды Windows после клонирования с --recurse-submodules приведены ниже. macOS использует presets macos-universal и mac-universal-release. Аппаратный HDR включён по умолчанию на Windows x64 и Intel Mac; флаги FRZZ_ENABLE_WINDOWS_HDR и FRZZ_ENABLE_MACOS_HDR позволяют его отключить. Кривые и обработка RPU адаптированы из libplacebo и компилируются в расширение, шейдеры используют D3D11/OpenGL."
           ],
           "code": "cmake --preset vs2022-x64\ncmake --build --preset release\nctest --preset release"
         },
@@ -89,7 +90,7 @@
           "id": "license",
           "title": "Лицензия",
           "items": [
-            "Смотрите LICENSE и лицензии зависимостей в выбранной версии исходников. Сам портал не распространяет бинарники или сторонние библиотеки."
+            "Собственный код — MIT. Адаптированные части libplacebo имеют отдельную LGPL-2.1-or-later лицензию в external/LICENSE-libplacebo.txt; смотрите уведомления и лицензии остальных зависимостей. Сам портал не распространяет бинарники."
           ],
           "code": null
         }
@@ -100,7 +101,7 @@
           "title": "What it does",
           "items": [
             "A native REAPER extension for raw Dolby/DTS/MLP audio, streaming TrueHD+AC3, ASS/SSA/SRT/WebVTT subtitles and audio stream selection in multitrack MKV/MP4. Audio and video stay in the original container.",
-            "Published release: v1.2.0, 22 November 2026. The main branch already records v1.3.0 dated 24 November with HDR tone mapping and preferences. There is no separate v1.3.0 release at this snapshot. Do not expect main-only features in the v1.2.0 download."
+            "Published release: v1.3.0, 24 November 2026. It adds hardware HDR tone mapping and Media Import preferences. Main matches the v1.3.0 tag at the final review snapshot."
           ],
           "code": null
         },
@@ -117,7 +118,7 @@
           "id": "install",
           "title": "Installation",
           "items": [
-            "Download the v1.2.0 archive for your OS below. SHA256SUMS.txt is available in the same release.",
+            "Download the v1.3.0 archive for your OS below. SHA256SUMS.txt is available in the same release.",
             "In REAPER, open Options → Show REAPER resource path in explorer/finder, then close REAPER.",
             "Copy reaper_frzz_media_import.dll (Windows) or reaper_frzz_media_import.dylib (macOS) into the resource directory’s UserPlugins folder.",
             "Place matching shared FFmpeg libraries there as well: DLLs from a full shared build’s bin folder on Windows; compatible dylib files or links on macOS.",
@@ -132,7 +133,8 @@
             "Drop supported raw audio into the project or use normal media insertion. For .thd+ac3, the TrueHD stream is read without a temporary media file.",
             "Insert an MKV/MP4 containing multiple audio streams and choose by language, title, codec and channels. Item → Audio track and the item context menu switch the active take’s stream. The selection is saved; Undo/Redo each take one step.",
             "ASS/SSA/SRT/VTT become timed text items relative to the insertion position. UTF-8 and UTF-16 LE/BE with a BOM are supported. These items can prepare text for Web Prompter.",
-            "Main v1.3.0 adds Preferences → Plug-ins → Media Import, HDR10/HDR10+/Dolby Vision tone mapping and HEVC fixes. This is a separate build path for Windows x64 and Intel Mac, outside the published v1.2.0."
+            "Preferences → Plug-ins → Media Import controls stream selection, HDR/Dolby Vision → SDR, HEVC fixes and seek frame skipping. Apply takes effect without restarting. Hardware HDR is available on Windows x64 and Intel Mac; Windows caches shaders in UserPlugins/Shaders.",
+            "Dolby Vision Profile 5 uses RPU, Profile 7 uses the base layer with RPU, and Profile 8.1 uses the HDR10 base layer. These are the release’s implementation boundaries, not a claim to process every Dolby Vision variant."
           ],
           "code": null
         },
@@ -161,8 +163,8 @@
           "id": "build",
           "title": "Build from source",
           "items": [
-            "Use v1.2.0 to reproduce the release. For HDR development use the pinned main commit and its README. Requirements include CMake 3.24+, submodules and Visual Studio 2022/Windows SDK or Xcode Command Line Tools.",
-            "Windows commands after cloning with --recurse-submodules follow below. macOS uses macos-universal and mac-universal-release presets. Main’s HDR builds require additional libplacebo dependencies and FFmpeg headers."
+            "Use v1.3.0 to reproduce the release. Requirements include CMake 3.24+, submodules and Visual Studio 2022/Windows SDK or Xcode Command Line Tools.",
+            "Windows commands after cloning with --recurse-submodules follow below. macOS uses macos-universal and mac-universal-release presets. Hardware HDR is enabled by default on Windows x64 and Intel Mac, controlled by FRZZ_ENABLE_WINDOWS_HDR and FRZZ_ENABLE_MACOS_HDR. Tone-mapping curves and RPU handling adapted from libplacebo compile into the extension, with native D3D11/OpenGL shaders."
           ],
           "code": "cmake --preset vs2022-x64\ncmake --build --preset release\nctest --preset release"
         },
@@ -170,7 +172,7 @@
           "id": "license",
           "title": "Licensing",
           "items": [
-            "See LICENSE and dependency notices at the selected source revision. This portal does not redistribute binaries or third-party libraries."
+            "Original code: MIT. Adapted libplacebo portions have separate LGPL-2.1-or-later terms in external/LICENSE-libplacebo.txt; see all dependency notices. This portal does not redistribute binaries."
           ],
           "code": null
         }
@@ -183,7 +185,10 @@
       "src/container_audio.cpp",
       "src/container_native_video.cpp",
       "src/video_settings.cpp",
-      "CMakeLists.txt"
+      "CMakeLists.txt",
+      "src/video_hdr_color.c",
+      "src/video_hdr_placebo.c",
+      "external/LICENSE-libplacebo.txt"
     ]
   },
   {
