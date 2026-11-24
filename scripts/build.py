@@ -72,9 +72,9 @@ ILLUSTRATIONS = {
         'ru': ('Браузер внутри рабочей станции с аудиодорожками', 'Иллюстрация REAPER WebView.'),
         'en': ('A browser embedded in a workstation with audio tracks', 'REAPER WebView illustration.'),
     }),
-    'ath10k-airport': ('ath10k-airport-cover.jpg', 534, {
-        'ru': ('Беспроводной модуль на тёмном рабочем столе', 'Иллюстрация Wi-Fi-адаптера.'),
-        'en': ('A wireless module on a dark workbench', 'Wi-Fi adapter illustration.'),
+    'ath10k-airport': ('ath10k-wifi-cover.jpg', 800, {
+        'ru': ('Ноутбук с открытым меню Wi-Fi', 'Иллюстрация подключения к Wi-Fi на ноутбуке.'),
+        'en': ('Laptop with the Wi-Fi menu open', 'Illustration of a laptop connecting to Wi-Fi.'),
     }),
 }
 
