@@ -17,8 +17,8 @@ SCREENSHOTS = {
     'mcudisp-web': ('mcu-display.png', 1702, 427),
 }
 T={
-'ru':dict(home='Проекты',docs='Документация',all='Все проекты',reaper='Инструменты REAPER',audio='Обработка звука',network='Сетевые драйверы',code='Исходники',release='Релиз',norelease='Без релиза',pre='Предварительный релиз',read='Открыть руководство',requirements='Требования',contents='На этой странице',foot='Открытые проекты SadFrozz. Документация, загрузки и исходники.',foot2='Без аналитики и внешних шрифтов.',search='Найти проект',empty='Подходящих проектов нет. Измените запрос или категорию.',downloads='Загрузки',other='Другие проекты',next='Продолжить',issues='Сообщить об ошибке',main='Исходники main',download='Скачать',support='Вопросы по проекту',skip='К содержимому'),
-'en':dict(home='Projects',docs='Documentation',all='All projects',reaper='REAPER tools',audio='Audio processing',network='Network drivers',code='Source code',release='Release',norelease='No release',pre='Pre-release',read='Read the guide',requirements='Requirements',contents='On this page',foot='Open projects by SadFrozz. Guides, downloads and source code.',foot2='No analytics or external fonts.',search='Find a project',empty='No matching projects. Try another search or category.',downloads='Downloads',other='More projects',next='Explore',issues='Report an issue',main='Main source',download='Download',support='Project support',skip='Skip to content')}
+'ru':dict(home='Проекты',docs='Документация',all='Все проекты',reaper='Инструменты REAPER',audio='Обработка звука',network='Сетевые драйверы',code='Исходники',release='Релиз',norelease='Без релиза',pre='Предварительный релиз',read='Открыть руководство',requirements='Требования',contents='На этой странице',search='Найти проект',empty='Подходящих проектов нет. Измените запрос или категорию.',downloads='Загрузки',other='Другие проекты',next='Продолжить',issues='Сообщить об ошибке',main='Исходники main',download='Скачать',support='Вопросы по проекту',skip='К содержимому'),
+'en':dict(home='Projects',docs='Documentation',all='All projects',reaper='REAPER tools',audio='Audio processing',network='Network drivers',code='Source code',release='Release',norelease='No release',pre='Pre-release',read='Read the guide',requirements='Requirements',contents='On this page',search='Find a project',empty='No matching projects. Try another search or category.',downloads='Downloads',other='More projects',next='Explore',issues='Report an issue',main='Main source',download='Download',support='Project support',skip='Skip to content')}
 
 def home(lang): return '/' if lang=='ru' else '/en/'
 def about_path(lang): return f'/{lang}/about/'
@@ -82,7 +82,7 @@ def shell(lang,title,description,path,alternate,body,kind='', *, image=SITE_IMAG
 <div class="header-options"><div class="language" aria-label="Language / Язык">{a(path if lang=='ru' else alternate,'RU','active' if lang=='ru' else '')}{a(path if lang=='en' else alternate,'EN','active' if lang=='en' else '')}</div>
 <button class="theme-toggle" type="button" aria-label="{'Тёмная тема' if lang=='ru' else 'Dark theme'}" aria-pressed="false" hidden><span aria-hidden="true">◐</span></button></div></div></header>
 {body}
-<footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta">{donate}<span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
+<footer class="site-footer"><div class="footer-inner"><a href="{home(lang)}" class="footer-logo" aria-label="SadFrozz">{logo}</a><div class="footer-links">{donate}{a('https://github.com/SadFrozz','GitHub ↗')}</div></div></footer></body></html>'''
 
 def project_screenshot(p, lang, thumbnail=False):
     russian = lang == 'ru'
