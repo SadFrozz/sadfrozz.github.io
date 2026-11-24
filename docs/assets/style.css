@@ -84,6 +84,6 @@ thead { background: light-dark(#e8ebdf, #30362d); }
 @media (max-width: 760px) { .toc { background: light-dark(#ebece2, #252924); } }
 @media (max-width: 480px) { .site-header .header-options { margin-left: auto; } }
 @media print { :root, :root[data-theme] { color-scheme: light; } }
+.project-card .visual { height: clamp(160px, 19vw, 238px); flex: none; }
 .illustration-thumb { background: #242622; }
-.illustration-thumb img { display: block; width: 100%; height: auto; }
-.illustration-thumb { height: auto; }
+.illustration-thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
