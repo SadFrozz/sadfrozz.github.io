@@ -44,29 +44,11 @@
 .project-screenshot a { display: block; width: fit-content; max-width: 100%; }
 .project-screenshot img { display: block; width: auto; max-width: 100%; height: auto; border-radius: 8px; }
 .project-screenshot figcaption { margin-top: 8px; color: var(--muted); font-size: 13px; }
-.webview-visual { margin: 0 0 25px; padding: 12px; background: #292d31; color: #f2f5f7; }
-.webview-host { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; }
-.webview-host span { color: #cbd3d9; font-size: 10px; }
-.webview-panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; height: calc(100% - 30px); }
-.webview-tracks, .webview-panel { min-width: 0; padding: 7px 9px; background: #363b40; border: 1px solid #535a61; border-radius: 5px; font-size: 11px; }
-.webview-tracks i { display: block; height: 9px; margin-top: 6px; border-radius: 2px; background: #627e82; }
-.webview-tracks i:nth-of-type(2) { width: 74%; background: #7d7698; }
-.webview-tracks i:nth-of-type(3) { width: 88%; background: #8b765e; }
-.webview-page { margin-top: 5px; padding: 5px 7px; border-radius: 3px; background: #e9edf0; color: #242622; font-weight: 600; }
-.webview-page i { display: block; width: 86%; height: 3px; margin-top: 4px; background: #8897a1; border-radius: 1px; }
-.webview-page i:last-child { width: 62%; }
 
 .site-header .brand { color: var(--orange); }
 .site-header .language .active { background: var(--orange); color: #242622; }
 .site-header a:focus-visible { outline-color: var(--orange); }
 .filters button[aria-pressed=true] { background: var(--orange); color: var(--ink); }
-.webview-panel { border-color: var(--orange); }
-.wifi-visual { margin: 0 0 25px; padding: 12px; background: #292d31; color: #f2f5f7; }
-.wifi-diagram { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; height: calc(100% - 30px); }
-.wifi-node { display: grid; justify-items: center; border: 1px solid #6a7177; border-radius: 5px; padding: 12px 4px; background: #363b40; font-size: clamp(12px, 2.4vw, 17px); line-height: 1.2; }
-.wifi-node span { margin-top: 5px; color: #cbd3d9; font-size: 11px; }
-.wifi-chip { border-color: var(--orange); }
-.wifi-connection { font-size: 21px; color: var(--orange); }
 
 .accent, em { color: var(--accent-ink); }
 .primary { color: var(--ink); }
@@ -102,3 +84,6 @@ thead { background: light-dark(#e8ebdf, #30362d); }
 @media (max-width: 760px) { .toc { background: light-dark(#ebece2, #252924); } }
 @media (max-width: 480px) { .site-header .header-options { margin-left: auto; } }
 @media print { :root, :root[data-theme] { color-scheme: light; } }
+.illustration-thumb { background: #242622; }
+.illustration-thumb img { display: block; width: 100%; height: auto; }
+.illustration-thumb { height: auto; }

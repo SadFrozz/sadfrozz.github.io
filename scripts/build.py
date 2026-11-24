@@ -49,11 +49,7 @@ def shell(lang,title,description,path,alternate,body,kind=''):
 
 def project_screenshot(p, lang, thumbnail=False):
     russian = lang == 'ru'
-    if p['slug'] == 'dlab-series':
-        asset, width, height = 'dlab-interfaces.png', 1750, 2613
-        alt = 'Интерфейсы dLab 286, 376 и 676' if russian else 'dLab 286, 376 and 676 interfaces'
-        caption = 'Сверху вниз: dLab 286 (Project One), 376 и 676. В релиз v1.0 входят 286 и 376.' if russian else 'Top to bottom: dLab 286 (Project One), 376 and 676. Release v1.0 includes 286 and 376.'
-    elif p['slug'] == 'web-prompter':
+    if p['slug'] == 'web-prompter':
         asset, width, height = 'text-monitor.png', 1903, 1130
         alt = 'Текстовый монитор с таймкодом, ролями и подсветкой текущей реплики' if russian else 'Text monitor with timecodes, speaker roles and a highlighted cue'
         caption = 'Текстовый монитор на примере проекта озвучки.' if russian else 'The text monitor showing a sample voice-over session.'
@@ -67,38 +63,38 @@ def project_screenshot(p, lang, thumbnail=False):
         return f'<div class="visual screenshot-thumb {p["slug"]}">{img}</div>'
     return f'<figure class="project-screenshot"><a href="{url}">{img}</a><figcaption>{caption}</figcaption></figure>'
 
-def webview_diagram(lang):
-    russian = lang == 'ru'
-    label = 'Схема: панель WebView рядом с дорожками REAPER' if russian else 'Diagram: a WebView panel beside REAPER tracks'
-    tracks = 'Дорожки' if russian else 'Tracks'
-    page = 'Веб-страница' if russian else 'Web page'
-    return f'''<figure class="visual webview-visual" aria-label="{label}">
-  <div class="webview-host"><strong>REAPER</strong><span>{'Схема' if russian else 'Diagram'}</span></div>
-  <div class="webview-panes">
-    <div class="webview-tracks"><span>{tracks}</span><i></i><i></i><i></i></div>
-    <div class="webview-panel"><span>WebView</span><div class="webview-page">{page}<i></i><i></i></div></div>
-  </div>
-</figure>'''
+ILLUSTRATIONS = {
+    'dlab-series': ('dlab-series-cover.jpg', 800, {
+        'ru': ('Обложка на основе интерфейсов dLab 286, 376 и 676', 'Иллюстрация по мотивам интерфейсов 286, 376 и 676. В релиз v1.0 входят 286 и 376.'),
+        'en': ('Cover artwork based on dLab 286, 376 and 676', 'Artwork inspired by the 286, 376 and 676 interfaces. Release v1.0 includes 286 and 376.'),
+    }),
+    'webview': ('reaper-webview-cover.jpg', 444, {
+        'ru': ('Браузер внутри рабочей станции с аудиодорожками', 'Иллюстрация REAPER WebView.'),
+        'en': ('A browser embedded in a workstation with audio tracks', 'REAPER WebView illustration.'),
+    }),
+    'ath10k-airport': ('ath10k-airport-cover.jpg', 534, {
+        'ru': ('Беспроводной модуль на тёмном рабочем столе', 'Иллюстрация Wi-Fi-адаптера.'),
+        'en': ('A wireless module on a dark workbench', 'Wi-Fi adapter illustration.'),
+    }),
+}
 
-def wifi_diagram(lang):
-    russian = lang == 'ru'
-    label = 'Схема: адаптер Qualcomm Atheros QCA9377 и системный интерфейс Wi-Fi в macOS' if russian else 'Diagram: Qualcomm Atheros QCA9377 and native macOS Wi-Fi'
-    return f'''<figure class="visual wifi-visual" aria-label="{label}">
-  <div class="webview-host"><strong>Ath10k-airport</strong><span>{'Схема' if russian else 'Diagram'}</span></div>
-  <div class="wifi-diagram"><div class="wifi-node wifi-chip"><strong>QCA9377</strong><span>PCIe</span></div>
-  <span class="wifi-connection" aria-hidden="true">→</span>
-  <div class="wifi-node"><strong>macOS</strong><span>Wi-Fi</span></div></div>
-</figure>'''
+
+def project_illustration(project, lang, thumbnail=False):
+    filename, height, copy = ILLUSTRATIONS[project['slug']]
+    alt, caption = copy[lang]
+    url = '/assets/' + filename
+    img = f'<img src="{url}" alt="{E(alt, quote=True)}" width="1200" height="{height}" loading="lazy">'
+    if thumbnail:
+        return f'<div class="visual illustration-thumb">{img}</div>'
+    return f'<figure class="project-screenshot"><a href="{url}">{img}</a><figcaption>{E(caption)}</figcaption></figure>'
 
 def visual(p, lang):
     if p['slug']=='media-import':
         bars=''.join(f'<i class="h{v}"></i>' for v in [16,30,56,38,78,95,65,48,85,60,40,70,100,80,45,24,50,70,56,90,65,30,50,80,95,40,65,32,55,75,35,22,45,60,80,90,55,70,45,25])
         return f'<div class="visual media-visual" aria-hidden="true"><div class="visual-label">MEDIA / SIGNAL IN</div><div class="wave">{bars}</div><div class="codec-row"><span>DOLBY</span><span>DTS</span><span>MKV / MP4</span><span>SUBTITLES</span></div></div>'
-    if p['slug'] in ('dlab-series', 'web-prompter', 'mcudisp-web'):
-        return project_screenshot(p, lang, thumbnail=True)
-    if p['slug'] == 'webview':
-        return webview_diagram(lang)
-    return wifi_diagram(lang)
+    if p['slug'] in ILLUSTRATIONS:
+        return project_illustration(p, lang, thumbnail=True)
+    return project_screenshot(p, lang, thumbnail=True)
 
 def card(p,lang):
     t=T[lang]; m=meta(p); status='experimental' if not m['release'] or m['release']['prerelease'] else ''
@@ -147,12 +143,10 @@ def source_links(p,lang):
 def documentation(p,lang):
     t=T[lang];m=meta(p);r=m['release'];path=guide(p,lang);alt=guide(p,'en' if lang=='ru' else 'ru')
     preview = ''
-    if p['slug'] in ('dlab-series', 'web-prompter', 'mcudisp-web'):
+    if p['slug'] in ILLUSTRATIONS:
+        preview = project_illustration(p, lang)
+    elif p['slug'] in ('web-prompter', 'mcudisp-web'):
         preview = project_screenshot(p, lang)
-    elif p['slug'] == 'webview':
-        preview = webview_diagram(lang)
-    elif p['slug'] == 'ath10k-airport':
-        preview = wifi_diagram(lang)
     links=''.join(a('#'+s['id'],s['title']) for s in p['sections'][lang])+a('#downloads',t['downloads'])+a('#sources',t['source'])
     sections=''
     for s in p['sections'][lang]:
