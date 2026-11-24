@@ -51,7 +51,7 @@ for p in ROOT.rglob('*'):
     if p.name=='check.py':continue
     for pattern in patterns:
         if re.search(pattern,text):errors.append(f'{p}: sensitive-data pattern')
-assert len(pages)==17, f'Expected 17 HTML pages, found {len(pages)}'
+assert len(pages)==15, f'Expected 15 HTML pages, found {len(pages)}'
 assert (OUT/'.nojekyll').is_file()
 assert len(json.loads((ROOT/'content/projects.json').read_text(encoding='utf-8')))==6
 if errors:raise SystemExit('\n'.join(errors))

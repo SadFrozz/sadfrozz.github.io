@@ -10,8 +10,8 @@ SNAPSHOT=json.loads((ROOT/'content/snapshot.json').read_text(encoding='utf-8'))
 E=html.escape
 BASE='https://sadfrozz.github.io'
 T={
-'ru':dict(home='Проекты',audit='Источники',docs='Документация',all='Все проекты',reaper='Инструменты REAPER',audio='Обработка звука',network='Сетевые драйверы',code='Исходники',release='Релиз',norelease='Без релиза',pre='Предварительный релиз',read='Открыть руководство',requirements='Требования',contents='На этой странице',verified='Сверено 24.11.2026',foot='Открытые проекты SadFrozz. Документация, загрузки и исходники.',foot2='Без аналитики и внешних шрифтов.',search='Найти проект',empty='Подходящих проектов нет. Измените запрос или категорию.',downloads='Загрузки',source='Проверенные источники',review='Проверка документации по README, исходникам, релизам и веткам. Запуск и тестирование самих проектов при подготовке портала не выполнялись.',other='Другие проекты',next='Продолжить',issues='Сообщить об ошибке',branch='Ветки и версии',main='Исходники main',download='Скачать',support='Вопросы по проекту',skip='К содержимому'),
-'en':dict(home='Projects',audit='Sources',docs='Documentation',all='All projects',reaper='REAPER tools',audio='Audio processing',network='Network drivers',code='Source code',release='Release',norelease='No release',pre='Pre-release',read='Read the guide',requirements='Requirements',contents='On this page',verified='Reviewed 24 Nov 2026',foot='Open projects by SadFrozz. Guides, downloads and source code.',foot2='No analytics or external fonts.',search='Find a project',empty='No matching projects. Try another search or category.',downloads='Downloads',source='Reviewed sources',review='Documentation checked against README files, source, releases and branches. The projects themselves were not built or run while preparing this portal.',other='More projects',next='Explore',issues='Report an issue',branch='Branches and versions',main='Main source',download='Download',support='Project support',skip='Skip to content')}
+'ru':dict(home='Проекты',docs='Документация',all='Все проекты',reaper='Инструменты REAPER',audio='Обработка звука',network='Сетевые драйверы',code='Исходники',release='Релиз',norelease='Без релиза',pre='Предварительный релиз',read='Открыть руководство',requirements='Требования',contents='На этой странице',verified='Сверено 24.11.2026',foot='Открытые проекты SadFrozz. Документация, загрузки и исходники.',foot2='Без аналитики и внешних шрифтов.',search='Найти проект',empty='Подходящих проектов нет. Измените запрос или категорию.',downloads='Загрузки',other='Другие проекты',next='Продолжить',issues='Сообщить об ошибке',main='Исходники main',download='Скачать',support='Вопросы по проекту',skip='К содержимому'),
+'en':dict(home='Projects',docs='Documentation',all='All projects',reaper='REAPER tools',audio='Audio processing',network='Network drivers',code='Source code',release='Release',norelease='No release',pre='Pre-release',read='Read the guide',requirements='Requirements',contents='On this page',verified='Reviewed 24 Nov 2026',foot='Open projects by SadFrozz. Guides, downloads and source code.',foot2='No analytics or external fonts.',search='Find a project',empty='No matching projects. Try another search or category.',downloads='Downloads',other='More projects',next='Explore',issues='Report an issue',main='Main source',download='Download',support='Project support',skip='Skip to content')}
 
 def home(lang): return '/' if lang=='ru' else '/en/'
 def name(p,lang): return p.get('title_en',p['title']) if lang=='en' else p['title']
@@ -41,11 +41,11 @@ def shell(lang,title,description,path,alternate,body,kind=''):
 <script src="/assets/theme.js"></script><script src="/assets/site.js" defer></script></head>
 <body class="{kind}"><a class="skip" href="#main">{t['skip']}</a>
 <header class="site-header"><div class="header-inner"><a href="{home(lang)}" class="brand" aria-label="SadFrozz">{logo}</a>
-<nav aria-label="{'Навигация' if lang=='ru' else 'Navigation'}">{a(home(lang)+'#projects',t['home'])}{a(f'/{lang}/sources/',t['audit'])}{a('https://github.com/SadFrozz','GitHub ↗')}</nav>
+<nav aria-label="{'Навигация' if lang=='ru' else 'Navigation'}">{a(home(lang)+'#projects',t['home'])}{a('https://github.com/SadFrozz','GitHub ↗')}</nav>
 <div class="header-options"><div class="language" aria-label="Language / Язык">{a(path if lang=='ru' else alternate,'RU','active' if lang=='ru' else '')}{a(path if lang=='en' else alternate,'EN','active' if lang=='en' else '')}</div>
 <button class="theme-toggle" type="button" aria-label="{'Тёмная тема' if lang=='ru' else 'Dark theme'}" aria-pressed="false" hidden><span aria-hidden="true">◐</span></button></div></div></header>
 {body}
-<footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta">{a(f'/{lang}/sources/',t['verified'])}<span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
+<footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta"><span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
 
 def project_screenshot(p, lang, thumbnail=False):
     russian = lang == 'ru'
@@ -129,17 +129,6 @@ def portal(lang):
     path=home(lang);alternate=home('en' if lang=='ru' else 'ru')
     write(path,shell(lang,title,intro,path,alternate,body,'portal'))
 
-def source_links(p,lang):
-    m=meta(p);base=repo(p)+'/blob/'+m['commit']+'/'
-    links=''.join('<li>'+a(base+quote(path,safe='/'),path)+'</li>' for path in p['sources'])
-    if p['slug']=='ath10k-airport':
-        b=m['branches'][1]
-        for path in ['docs/development/NATIVE-STATUS.md','docs/contracts/NATIVE-EAP-CONTRACT.md','src/macos/native/Ath10kNativeProfile.hpp']:
-            links+='<li>'+a(repo(p)+'/blob/'+b['commit']+'/'+path,'development: '+path)+'</li>'
-    if m['release']:
-        links+='<li>'+a(repo(p)+'/blob/'+m['release']['commit']+'/README.md',m['release']['tag']+' README')+'</li>'
-    return links
-
 def documentation(p,lang):
     t=T[lang];m=meta(p);r=m['release'];path=guide(p,lang);alt=guide(p,'en' if lang=='ru' else 'ru')
     preview = ''
@@ -177,33 +166,10 @@ def documentation(p,lang):
 <section class="more-projects"><h2>{t['other']}</h2><div>{other}</div></section></main>'''
     write(path,shell(lang,name(p,lang),p['summary'][lang],path,alt,body,'documentation'))
 
-def audit(lang):
-    t=T[lang];ru=lang=='ru';title='Источники и проверка' if ru else 'Sources and verification'
-    intro='Каждое руководство привязано к публичным исходникам. Здесь указаны изученные коммиты, ветки и опубликованные релизы.' if ru else 'Each guide is tied to public sources. These are the reviewed commits, branches and published releases.'
-    rows=''
-    for p in PROJECTS:
-        m=meta(p);r=m['release']
-        rows+='<tr><th scope="row">'+a(guide(p,lang),name(p,lang))+'</th><td>'+a(repo(p)+'/tree/'+m['commit'],m['commit'][:12])+'</td><td>'+(a(repo(p)+'/releases/tag/'+r['tag'],label(p,lang)) if r else t['norelease'])+'</td></tr>'
-    method=[
-      'Изучены README, ключевые исходники, требования сборки, опубликованные релизы и все ветки, возвращённые GitHub API. Сопоставлены деревья main и последних тегов.','Media Import: во время финальной проверки опубликован v1.3.0. Его тег и main имеют одинаковое дерево исходников. dLab.Series, WebView и Web Prompter также имеют одинаковые деревья main и соответствующих релизных тегов. У MCU Display различается только ссылка в README.','Ath10k: изучены main и native-sequoia-development, включая отдельную карту состояния разработки. Отсутствие релизов не заменено обещанием стабильной сборки.','Под «проверено» понимается проверка документации по коду и публичным источникам. Новых проверок аудио, REAPER, оборудования или сборок 1.3.0 не выполнялось.','Портал содержит только специально подготовленный текст и сведения из публичных репозиториев. Личные файлы, рабочие проекты, пароли, ключи, сетевые дампы и настройки в него не копировались.'
-    ] if ru else [
-      'Reviewed README files, key implementation, build requirements, published releases and every branch returned by the GitHub API. Compared main trees against latest release tags.','Media Import v1.3.0 was published during final review. Its tag matches the main source tree. dLab.Series, WebView and Web Prompter also have identical main/release source trees. MCU Display differs only in one README link.','Ath10k: reviewed main and native-sequoia-development, including the separate development status map. No releases is not presented as a stable build.','Verified means documentation checked against code and public sources. No fresh audio, REAPER, device tests or v1.3.0 builds were performed.','Only deliberately authored text and public repository facts are included. Personal files, working projects, passwords, keys, network dumps and private settings were not copied into the portal.'
-    ]
-    details=''
-    for p in PROJECTS:
-        m=meta(p)
-        branches = ''.join(f'<li>{a(repo(p) + "/tree/" + branch["commit"], branch["name"])} <code>{branch["commit"][:12]}</code></li>' for branch in m['branches'])
-        details+=f'<section class="doc-section"><h2>{E(name(p,lang))}</h2><h3>{t["branch"]}</h3><ul>{branches}</ul><ul>{source_links(p,lang)}</ul></section>'
-    body=f'<main id="main" class="wrap audit-wrap"><p class="eyebrow accent">SOURCE / SNAPSHOT 2026-11-24</p><h1>{title}</h1><p class="doc-lead">{intro}</p><div class="table-scroll"><table><thead><tr><th>{t["home"]}</th><th>main</th><th>{t["release"]}</th></tr></thead><tbody>{rows}</tbody></table></div><section class="doc-section"><h2>{"Область проверки" if ru else "Review scope"}</h2><ul>'+''.join('<li>'+E(x)+'</li>' for x in method)+f'</ul><p>{a("/snapshot.json","JSON snapshot ↗")}</p></section>{details}</main>'
-    path=f'/{lang}/sources/';alt=f'/{"en" if ru else "ru"}/sources/'
-    write(path,shell(lang,title,intro,path,alt,body,'audit'))
-
 for lang in ['ru','en']:
     portal(lang)
     for p in PROJECTS:documentation(p,lang)
-    audit(lang)
 write('/404.html',shell('ru','Страница не найдена','Page not found','/404.html','/en/', '<main id="main" class="wrap not-found"><p class="eyebrow accent">404 / NO SIGNAL</p><h1>Страница не найдена.<br>Page not found.</h1><p>Выберите язык и вернитесь к проектам.</p><div class="hero-actions">'+a('/','Проекты / RU','button primary')+a('/en/','Projects / EN','button outline')+'</div></main>'))
-write('/snapshot.json',json.dumps(SNAPSHOT,ensure_ascii=False,indent=2)+'\n')
 write('/.nojekyll','')
 paths=[('/' if x.relative_to(OUT).as_posix()=='index.html' else '/'+x.relative_to(OUT).as_posix().replace('index.html','')) for x in OUT.rglob('*.html') if x.name!='404.html']
 write('/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+BASE+p+'</loc><lastmod>2026-11-24</lastmod></url>' for p in sorted(paths))+'</urlset>\n')
