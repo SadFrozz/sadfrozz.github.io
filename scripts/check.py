@@ -38,10 +38,13 @@ for p,page in pages.items():
         if not target.exists():errors.append(f'{p}: missing {link}')
         if u.fragment and target in pages and unquote(u.fragment) not in pages[target].ids:errors.append(f'{p}: missing anchor {link}')
     if p.name!='404.html':
-        if set(page.alternates)!={'ru','en'}:errors.append(f'{p}: missing language pairs')
+        if set(page.alternates)!={'ru','en','x-default'}:errors.append(f'{p}: missing language pairs or default')
+        if page.alternates.get('x-default')!=page.alternates.get('ru'):errors.append(f'{p}: inconsistent language default')
         for lang,url in page.alternates.items():
             target=OUT/urlsplit(url).path.lstrip('/')/'index.html'
-            if target not in pages or pages[target].lang!=lang:errors.append(f'{p}: wrong language target {url}')
+            expected_lang = 'ru' if lang == 'x-default' else lang
+            if target not in pages or pages[target].lang!=expected_lang:errors.append(f'{p}: wrong language target {url}')
+            elif pages[target].alternates!=page.alternates:errors.append(f'{p}: language links are not reciprocal')
 for p in ROOT.rglob('*'):
     if not p.is_file() or '.git' in p.parts:continue
     if p.suffix in ('.png', '.jpg') and p.parent == OUT/'assets':continue
@@ -51,7 +54,7 @@ for p in ROOT.rglob('*'):
     if p.name=='check.py':continue
     for pattern in patterns:
         if re.search(pattern,text):errors.append(f'{p}: sensitive-data pattern')
-assert len(pages)==15, f'Expected 15 HTML pages, found {len(pages)}'
+assert len(pages)==17, f'Expected 17 HTML pages, found {len(pages)}'
 assert (OUT/'.nojekyll').is_file()
 assert len(json.loads((ROOT/'content/projects.json').read_text(encoding='utf-8')))==6
 if errors:raise SystemExit('\n'.join(errors))

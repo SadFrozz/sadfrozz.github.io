@@ -19,7 +19,7 @@
           "title": "Что делает расширение",
           "items": [
             "Нативное расширение дополняет импорт REAPER: raw Dolby/DTS/MLP, потоковое чтение TrueHD+AC3, ASS/SSA/SRT/WebVTT и выбор звука в многодорожечных MKV/MP4. Аудио и видео читаются из исходного контейнера.",
-            "Опубликованный релиз: v1.3.0 от 24 ноября 2026 года. В нём добавлены аппаратный HDR-тонмаппинг и страница настроек Media Import. На момент финальной проверки main совпадает с тегом v1.3.0."
+            "В v1.3.0 добавлены аппаратный HDR-тонмаппинг и собственная страница настроек Media Import."
           ],
           "code": null
         },
@@ -52,7 +52,7 @@
             "Вставьте MKV/MP4 с несколькими аудиопотоками и выберите дорожку по языку, названию, кодеку и каналам. Пункт Item → Audio track или контекстное меню меняет дорожку активного тейка. Выбор сохраняется в проекте; Undo/Redo работают одним шагом.",
             "ASS/SSA/SRT/VTT становятся текстовыми айтемами с таймингом относительно позиции импорта. Поддерживаются UTF-8 и UTF-16 LE/BE с BOM. Это можно использовать как подготовку текста для Web Prompter.",
             "В Preferences → Plug-ins → Media Import настраиваются выбор дорожек, HDR/Dolby Vision → SDR, исправления HEVC и пропуск кадров при перемотке. Apply действует без перезапуска. Аппаратный HDR доступен на Windows x64 и Intel Mac; кэш Windows хранится в UserPlugins/Shaders.",
-            "Dolby Vision Profile 5 использует RPU, Profile 7 — базовый слой с RPU, Profile 8.1 — базовый HDR10. Это границы реализации из релизного описания, а не обещание обработки всех вариантов Dolby Vision."
+            "Dolby Vision Profile 5 использует RPU, Profile 7 — базовый слой с RPU, Profile 8.1 — базовый слой HDR10."
           ],
           "code": null
         },
@@ -60,11 +60,11 @@
           "id": "limits",
           "title": "Ограничения",
           "items": [
-            "Регистрация расширения файла не гарантирует поддержку любого его варианта. AC-4 и редкие DTS-HD/ES/X/UHD без воспроизводимых образцов не заявлены как проверенные. Переименование файла не меняет кодек.",
+            "Совместимость с AC-4 и редкими вариантами DTS-HD/ES/X/UHD не подтверждена. Для импорта важен кодек внутри файла, а не его расширение.",
             "Высотные каналы выбранной дорожки не сохраняются: например, 7.1.2 импортируется как 7.1 с основными каналами и LFE. Это не рендер объектов Atmos.",
             "Стили, расположение и визуальные слои субтитров не переносятся в оформление текстовых айтемов. SRT ограничен 10 исходными строками на айтем.",
-            "Нативный выбор дорожек зависит от проверенных точек подключения конкретных сборок REAPER. Новая версия REAPER может требовать отдельной проверки.",
-            "Для текущего кода опубликованы результаты Windows и Intel Mac; наличие arm64 в сборке не доказывает повторную проверку всех функций на Apple Silicon. HDR на Intel Arc/QSV остаётся экспериментальным и не проверен на реальном Arc."
+            "Штатный выбор аудиодорожек зависит от сборки REAPER. При обновлении REAPER проверьте, открывается ли меню Audio track для MKV/MP4 с несколькими аудиопотоками.",
+            "Аппаратный HDR-тонмаппинг доступен на Windows x64 и Intel Mac. Режим Intel Arc/QSV экспериментальный и не испытан на физической карте Arc."
           ],
           "code": null
         },
@@ -90,7 +90,7 @@
           "id": "license",
           "title": "Лицензия",
           "items": [
-            "Собственный код — MIT. Адаптированные части libplacebo имеют отдельную LGPL-2.1-or-later лицензию в external/LICENSE-libplacebo.txt; смотрите уведомления и лицензии остальных зависимостей. Сам портал не распространяет бинарники."
+            "Код расширения — MIT. Адаптированные части libplacebo доступны по LGPL-2.1-or-later, см. external/LICENSE-libplacebo.txt."
           ],
           "code": null
         }
@@ -101,7 +101,7 @@
           "title": "What it does",
           "items": [
             "A native REAPER extension for raw Dolby/DTS/MLP audio, streaming TrueHD+AC3, ASS/SSA/SRT/WebVTT subtitles and audio stream selection in multitrack MKV/MP4. Audio and video stay in the original container.",
-            "Published release: v1.3.0, 24 November 2026. It adds hardware HDR tone mapping and Media Import preferences. Main matches the v1.3.0 tag at the final review snapshot."
+            "Version 1.3.0 adds hardware HDR tone mapping and a dedicated Media Import preferences page."
           ],
           "code": null
         },
@@ -134,7 +134,7 @@
             "Insert an MKV/MP4 containing multiple audio streams and choose by language, title, codec and channels. Item → Audio track and the item context menu switch the active take’s stream. The selection is saved; Undo/Redo each take one step.",
             "ASS/SSA/SRT/VTT become timed text items relative to the insertion position. UTF-8 and UTF-16 LE/BE with a BOM are supported. These items can prepare text for Web Prompter.",
             "Preferences → Plug-ins → Media Import controls stream selection, HDR/Dolby Vision → SDR, HEVC fixes and seek frame skipping. Apply takes effect without restarting. Hardware HDR is available on Windows x64 and Intel Mac; Windows caches shaders in UserPlugins/Shaders.",
-            "Dolby Vision Profile 5 uses RPU, Profile 7 uses the base layer with RPU, and Profile 8.1 uses the HDR10 base layer. These are the release’s implementation boundaries, not a claim to process every Dolby Vision variant."
+            "Dolby Vision Profile 5 uses RPU, Profile 7 uses the base layer with RPU, and Profile 8.1 uses the HDR10 base layer."
           ],
           "code": null
         },
@@ -142,11 +142,11 @@
           "id": "limits",
           "title": "Limitations",
           "items": [
-            "A registered extension is not proof that every codec variant works. AC-4 and uncommon DTS-HD/ES/X/UHD variants without reproducible samples are not claimed as verified. Renaming a file does not change its codec.",
+            "Compatibility with AC-4 and uncommon DTS-HD/ES/X/UHD variants is unconfirmed. Import support depends on the codec inside the file.",
             "Height channels are omitted: 7.1.2 becomes 7.1, retaining main channels and LFE. This is not an Atmos object renderer.",
             "Subtitle styling, placement and visual layer order do not become text-item formatting. SRT supports up to 10 original text lines per item.",
-            "Native stream selection depends on validated integration points in specific REAPER builds. A new REAPER version may need a separate compatibility check.",
-            "Current source reports Windows and Intel Mac checks. An arm64 slice does not establish fresh hardware coverage for every feature. The Intel Arc/QSV HDR path remains experimental and untested on physical Arc hardware."
+            "Native audio-track selection depends on the REAPER build. After updating REAPER, check that the Audio track menu opens for an MKV or MP4 with multiple audio streams.",
+            "Hardware HDR tone mapping is available on Windows x64 and Intel Mac. The Intel Arc/QSV mode is experimental and untested on physical Arc hardware."
           ],
           "code": null
         },
@@ -172,7 +172,7 @@
           "id": "license",
           "title": "Licensing",
           "items": [
-            "Original code: MIT. Adapted libplacebo portions have separate LGPL-2.1-or-later terms in external/LICENSE-libplacebo.txt; see all dependency notices. This portal does not redistribute binaries."
+            "The extension code is MIT. Adapted libplacebo portions are LGPL-2.1-or-later; see external/LICENSE-libplacebo.txt."
           ],
           "code": null
         }
@@ -189,7 +189,8 @@
       "src/video_hdr_color.c",
       "src/video_hdr_placebo.c",
       "external/LICENSE-libplacebo.txt"
-    ]
+    ],
+    "changelog": "CHANGELOG.md"
   },
   {
     "repo": "dLab.Series",
@@ -212,8 +213,7 @@
           "title": "Два плагина",
           "items": [
             "dLab 286: входное усиление, low-cut, компрессор Drive/Density, де-эссер, LF/HF Detail, экспандер/гейт и выходной уровень. Режимы Project One и 286S.",
-            "dLab 376: Warm/Bright/Muted, EQ, компрессор OverEasy с FAST/SLOW, де-эссер и выходной уровень. Оверсемплинг Off/2x/4x, по умолчанию Off.",
-            "Последний релиз — v1.0 от 11 октября 2026 года. Дерево main совпадает с тегом v1.0 на момент проверки."
+            "dLab 376: Warm/Bright/Muted, EQ, компрессор OverEasy с FAST/SLOW, де-эссер и выходной уровень. Оверсемплинг Off/2x/4x, по умолчанию Off."
           ],
           "code": null
         },
@@ -251,9 +251,9 @@
           "id": "limits",
           "title": "Ограничения",
           "items": [
-            "Установщик macOS не подписан Developer ID и не нотарифицирован Apple; плагины имеют ad-hoc подпись. Universal включает обе архитектуры, но опубликованные локальные проверки проводились на Intel Mac.",
-            "Независимая эмуляция по принципам работы и открытой информации. Проект не связан с dbx/Harman. Аппаратные функции вроде +48 V, AES/SPDIF и внешнего word clock не реализованы как фиктивные параметры обработки.",
-            "Автоматические DSP/host-тесты не заменяют проверки в конкретной DAW или OBS. Linux-сборка не опубликована."
+            "Установщик macOS без подписи Developer ID и нотарификации Apple. Плагины подписаны ad hoc. В Universal-сборке есть версии для Intel и Apple Silicon.",
+            "dLab независимо моделирует звуковую обработку устройств dbx. Фантомное питание +48 В, AES/SPDIF и внешний word clock отсутствуют.",
+            "Готовые сборки доступны для Windows и macOS."
           ],
           "code": null
         },
@@ -290,8 +290,7 @@
           "title": "Two plugins",
           "items": [
             "dLab 286: input gain, low-cut, Drive/Density compression, de-essing, LF/HF Detail, expander/gate and output gain. Project One and 286S modes.",
-            "dLab 376: Warm/Bright/Muted tonal choices, EQ, OverEasy compression with FAST/SLOW, de-essing and output gain. Off/2x/4x oversampling, off by default.",
-            "Latest release: v1.0, 11 October 2026. Main’s tree matches the v1.0 tag at this snapshot."
+            "dLab 376: Warm/Bright/Muted tonal choices, EQ, OverEasy compression with FAST/SLOW, de-essing and output gain. Off/2x/4x oversampling, off by default."
           ],
           "code": null
         },
@@ -329,9 +328,9 @@
           "id": "limits",
           "title": "Limitations",
           "items": [
-            "The macOS installer has no Developer ID signature or Apple notarization; plugin bundles are ad-hoc signed. Universal includes both architectures, but published local checks were performed on Intel Mac.",
-            "An independent emulation based on operating principles and public information, unaffiliated with dbx/Harman. Physical features such as +48 V, AES/SPDIF and external word clock are not fabricated processing parameters.",
-            "Automated DSP/host checks do not replace testing in your DAW or OBS. No Linux build is published."
+            "The macOS installer has no Developer ID signature or Apple notarization. Plugin bundles are ad-hoc signed. The Universal build includes Intel and Apple Silicon versions.",
+            "dLab independently models the audio processing of dbx hardware. It does not provide +48 V phantom power, AES/SPDIF or external word clock.",
+            "Prebuilt installers are available for Windows and macOS."
           ],
           "code": null
         },
@@ -371,7 +370,8 @@
       "src/modules/Channel376/src/ParameterContract.h",
       "src/bundle/Processors.cpp",
       "CMakeLists.txt"
-    ]
+    ],
+    "changelog": "CHANGELOG.md"
   },
   {
     "repo": "reaper_webview",
@@ -392,8 +392,7 @@
           "id": "overview",
           "title": "Встроенный браузер",
           "items": [
-            "Расширение использует WebView2 в Windows и WKWebView в macOS. Поддерживает несколько окон, поиск по странице, контекстное меню, сохранение положения и проброс сочетаний клавиш в REAPER.",
-            "Последняя публикация — v0.2.0 от 11 сентября 2026 года, помечена Pre-release. Main совпадает с тегом на момент проверки."
+            "Расширение использует WebView2 в Windows и WKWebView в macOS. Поддерживает несколько окон, поиск по странице, контекстное меню, сохранение положения и проброс сочетаний клавиш в REAPER."
           ],
           "code": null
         },
@@ -402,7 +401,7 @@
           "title": "Требования",
           "items": [
             "REAPER на Windows x64 или macOS с подходящей Universal-библиотекой. Windows требует Microsoft Edge WebView2 Runtime; SDK для сборки не заменяет установленный Runtime.",
-            "Доступ в сеть нужен для сетевых страниц. Встроенный WKWebView использует системный движок macOS. В README не установлен точный минимальный номер версии REAPER — здесь он не придуман."
+            "В macOS расширение использует системный движок WKWebView. Для загрузки внешних страниц нужен доступ в сеть."
           ],
           "code": null
         },
@@ -410,7 +409,7 @@
           "id": "install",
           "title": "Установка",
           "items": [
-            "Откройте релиз v0.2.0 и скачайте архив своей платформы. Ссылки /releases/latest могут пропускать предварительные версии; используйте точную ссылку ниже.",
+            "Скачайте архив для своей ОС из раздела «Загрузки». v0.2.0 — предварительный релиз.",
             "Через Options → Show REAPER resource path откройте папку ресурсов и закройте REAPER.",
             "Распакуйте содержимое архива в UserPlugins: reaper_webview.dll в Windows или reaper_webview.dylib в macOS. Если архив содержит WebView2Loader.dll, сохраните его рядом с расширением.",
             "Перезапустите REAPER. Для обычной работы используйте Release-библиотеку; debug-вариант предназначен для диагностики."
@@ -435,7 +434,7 @@
             "Это предварительный релиз. Linux не поддерживается текущей сборкой.",
             "Маршрутизация звука браузера в аудиограф REAPER/ReaRoute находится в планах и не реализована как готовая функция.",
             "В macOS подсветка поиска ограничена 5000 совпадениями с резервным подсчётом. Поведение конкретных сайтов зависит от системного веб-движка.",
-            "Поддержку устаревших Windows нельзя выводить из старых FAQ других проектов: проверьте совместимость доступного WebView2 Runtime с вашей ОС."
+            "В Windows доступность расширения зависит от совместимости WebView2 Runtime с вашей версией ОС."
           ],
           "code": null
         },
@@ -471,8 +470,7 @@
           "id": "overview",
           "title": "Embedded browser",
           "items": [
-            "Uses WebView2 on Windows and WKWebView on macOS. Includes independent windows, find-in-page, context menus, window placement and REAPER shortcut forwarding.",
-            "Latest publication: v0.2.0, 11 September 2026, marked Pre-release. Main matches the tag at this snapshot."
+            "Uses WebView2 on Windows and WKWebView on macOS. Includes independent windows, find-in-page, context menus, window placement and REAPER shortcut forwarding."
           ],
           "code": null
         },
@@ -481,7 +479,7 @@
           "title": "Requirements",
           "items": [
             "REAPER on Windows x64 or macOS with the appropriate Universal library. Windows requires Microsoft Edge WebView2 Runtime; the build SDK does not replace the installed Runtime.",
-            "Network pages require network access. WKWebView uses the macOS system engine. The README does not define an exact minimum REAPER version; none is invented here."
+            "On macOS the extension uses the system WKWebView engine. Loading external pages requires network access."
           ],
           "code": null
         },
@@ -489,7 +487,7 @@
           "id": "install",
           "title": "Installation",
           "items": [
-            "Open v0.2.0 and download your platform archive. /releases/latest can skip pre-releases; use the exact link below.",
+            "Get the archive for your OS from Downloads. Version 0.2.0 is a pre-release.",
             "Open Options → Show REAPER resource path, then close REAPER.",
             "Extract the archive into UserPlugins: reaper_webview.dll on Windows or reaper_webview.dylib on macOS. Keep WebView2Loader.dll beside the extension if included.",
             "Restart REAPER. Use the Release binary for normal work; debug builds are for diagnostics."
@@ -514,7 +512,7 @@
             "This is a pre-release. The current build does not support Linux.",
             "Routing browser audio into REAPER/ReaRoute is a roadmap item, not a delivered feature.",
             "macOS find highlights are capped at 5000 with fallback counting. Website behavior depends on the system web engine.",
-            "Do not infer legacy Windows support from another project’s old FAQ; check the available WebView2 Runtime’s OS requirements."
+            "On Windows, the extension requires a WebView2 Runtime build compatible with your OS version."
           ],
           "code": null
         },
@@ -553,7 +551,8 @@
       "src/settings.mm",
       "src/platform/windows/webview_win.cpp",
       "CMakeLists.txt"
-    ]
+    ],
+    "changelog": "CHANGELOG.md"
   },
   {
     "repo": "FRZZ-reaper-web-prompter",
@@ -576,7 +575,7 @@
           "title": "Текст рядом с таймлайном",
           "items": [
             "Телесуфлёр и интерактивная монтажка работают во встроенном WebView или браузере в локальной сети. Lua-backend получает текст из заметок медиаайтемов P_NOTES выбранной дорожки и передаёт его веб-интерфейсу.",
-            "Последний релиз — v1.5.1 от 18 ноября 2025 года. Main совпадает с тегом на момент проверки. Роли, фильтры, сегментация, статистика и автопрокрутка входят в интерфейс."
+            "В интерфейсе есть роли, фильтры, сегментация, статистика и автопрокрутка."
           ],
           "code": null
         },
@@ -617,9 +616,9 @@
           "title": "Ограничения и данные",
           "items": [
             "Нет редактирования исходного текста прямо в мониторе и собственного импорта SRT/ASS. Подготовьте текст в REAPER; Media Import — отдельное расширение, которое может создать текстовые айтемы.",
-            "Backend сохраняет текст в reaper_www_root/subtitles.json. Глобальные настройки — settings.json, карта ролей сохранённого проекта — <project>-roles.json рядом с проектом. Это рабочие данные, их не нужно загружать на GitHub Pages.",
-            "HTTP-интерфейс обслуживает REAPER на рабочем компьютере. Портал GitHub Pages содержит документацию и не подключается к вашему REAPER. Доступ к рабочему интерфейсу оставляйте в доверенной сети.",
-            "Точные минимальные версии REAPER и ОС не заданы в README. Наличие старого FAQ о Windows 7/8 не подтверждает текущую поддержку WebView2 на этих системах."
+            "Текст сохраняется в reaper_www_root/subtitles.json, глобальные настройки — в settings.json. Карта ролей хранится рядом с сохранённым проектом в <project>-roles.json.",
+            "REAPER запускает HTTP-интерфейс на компьютере с проектом. Открывайте его только в доверенной локальной сети.",
+            "Встроенный режим Windows требует WebView2 Runtime, совместимого с вашей версией Windows."
           ],
           "code": null
         },
@@ -656,7 +655,7 @@
           "title": "Text beside your timeline",
           "items": [
             "A teleprompter and interactive cue sheet, embedded in WebView or opened in a LAN browser. The Lua backend reads media-item P_NOTES on the selected track and provides data to the web UI.",
-            "Latest release: v1.5.1, 18 November 2025. Main matches the tag at this snapshot. Includes roles, filters, segmentation, statistics and auto-scrolling."
+            "The interface includes roles, filters, segmentation, statistics and auto-scrolling."
           ],
           "code": null
         },
@@ -697,9 +696,9 @@
           "title": "Limitations and data",
           "items": [
             "There is no direct source-text editing in the monitor and no built-in SRT/ASS importer. Prepare text in REAPER; the separate Media Import extension can create text items.",
-            "The backend writes text to reaper_www_root/subtitles.json. Global settings use settings.json; a saved project’s role map is <project>-roles.json beside the project. These working data should not be uploaded to GitHub Pages.",
-            "REAPER serves the working HTTP interface on your computer. This GitHub Pages portal provides documentation and does not connect to your REAPER instance. Keep the working interface on a trusted network.",
-            "The README gives no exact minimum REAPER/OS versions. Its old Windows 7/8 FAQ does not establish current WebView2 support on those systems."
+            "Text is written to reaper_www_root/subtitles.json and global settings to settings.json. Each saved project’s role map is stored alongside it as <project>-roles.json.",
+            "REAPER serves the HTTP interface on the computer running the project. Use it on a trusted local network.",
+            "Embedded mode on Windows requires a WebView2 Runtime build compatible with your version of Windows."
           ],
           "code": null
         },
@@ -738,7 +737,8 @@
       "installer.py",
       ".github/workflows/main.yaml"
     ],
-    "title_en": "Interactive Text Monitor"
+    "title_en": "Interactive Text Monitor",
+    "changelog": "CHANGELOG.md"
   },
   {
     "repo": "mcudisp-web",
@@ -761,7 +761,7 @@
           "title": "Внешний дисплей по сети",
           "items": [
             "Python-сервер принимает текст по MIDI SysEx, таймкод и транспорт по OSC, затем передаёт их браузеру через Socket.IO. На экране две строки по 56 символов: восемь ячеек по семь символов.",
-            "Последний релиз — v1.2 от 30 августа 2025 года, без готовых бинарных файлов. Используется исходный код. Main отличается от тега одной ссылкой в README; серверный код совпадает."
+            "MCU Display Web запускается из исходников на компьютере с REAPER."
           ],
           "code": null
         },
@@ -798,12 +798,12 @@
         },
         {
           "id": "limits",
-          "title": "Ограничения, проверенные по коду",
+          "title": "Ограничения",
           "items": [
-            "Хотя README описывает MCU-совместимые устройства в целом, server.py фильтрует конкретный Behringer SysEx-префикс (0, 32, 50, 0, 20, 120). Другой MCU-контроллер не становится совместимым только от смены SEARCH_TERM; может понадобиться изменение парсера.",
+            "server.py ожидает Behringer SysEx с префиксом (0, 32, 50, 0, 20, 120). Для контроллеров с другим префиксом потребуется изменить обработку SysEx. SEARCH_TERM выбирает MIDI-порт.",
             "OSC слушает только 127.0.0.1:9000, веб-сервер — 0.0.0.0:5000. MIDI-порт ищется по подстроке и выбирается первый подходящий. Если порт занят DAW, доступ зависит от драйвера и маршрутизации.",
             "Нет встроенных учётных записей, TLS и настройки для публичного сервера. Код использует allow_unsafe_werkzeug=True. Это локальный дисплей для доверенной сети, а не сервис для публикации в интернете.",
-            "Нет опубликованной матрицы минимальных версий Python/ОС или подтверждения всех контроллеров. Нефиксированные зависимости могут требовать подбора совместимых версий. Физическое MIDI/OSC-оборудование в рамках подготовки портала не проверялось."
+            "Версии зависимостей не зафиксированы. При ошибках установки выберите версии библиотек, совместимые с вашей версией Python."
           ],
           "code": null
         },
@@ -820,7 +820,7 @@
           "id": "build",
           "title": "Исходники",
           "items": [
-            "Отдельной компиляции нет. server.py — сервер, list_ports.py — список входов, templates/index.html — интерфейс. Запускать нужно локально: GitHub Pages не исполняет Python и не подключает MIDI."
+            "Компиляция не нужна. server.py запускает сервер, list_ports.py выводит список MIDI-входов, templates/index.html содержит интерфейс дисплея."
           ],
           "code": null
         },
@@ -839,7 +839,7 @@
           "title": "A network display",
           "items": [
             "A Python server receives display text over MIDI SysEx and timecode/transport over OSC, then sends updates to the browser through Socket.IO. Two 56-character lines provide eight seven-character channel cells.",
-            "Latest release: v1.2, 30 August 2025, with no binary assets. Run from source. Main differs from the tag by one README link; server code is the same."
+            "MCU Display Web runs from source on the computer running REAPER."
           ],
           "code": null
         },
@@ -876,12 +876,12 @@
         },
         {
           "id": "limits",
-          "title": "Source-verified limitations",
+          "title": "Limitations",
           "items": [
-            "The README describes MCU-compatible devices generally, but server.py filters a specific Behringer SysEx prefix: (0, 32, 50, 0, 20, 120). Another MCU device may need parser changes; changing SEARCH_TERM alone does not guarantee compatibility.",
+            "server.py expects Behringer SysEx with the prefix (0, 32, 50, 0, 20, 120). Controllers using a different prefix require changes to SysEx parsing. SEARCH_TERM selects the MIDI port.",
             "OSC binds to 127.0.0.1:9000; the web server binds to 0.0.0.0:5000. MIDI selection uses the first substring match. Simultaneous DAW access depends on the MIDI driver and routing.",
             "No built-in accounts, TLS or public-server setup. The code uses allow_unsafe_werkzeug=True. Use it as a local display on a trusted network.",
-            "There is no published minimum Python/OS matrix or coverage for all controllers. Unpinned dependencies may need compatible versions. Physical MIDI/OSC hardware was not tested while preparing this portal."
+            "Dependency versions are unpinned. If installation fails, choose library versions compatible with your Python release."
           ],
           "code": null
         },
@@ -898,7 +898,7 @@
           "id": "build",
           "title": "Sources",
           "items": [
-            "No compilation step. server.py is the server, list_ports.py lists inputs and templates/index.html is the UI. Run locally: GitHub Pages cannot execute Python or connect MIDI devices."
+            "No compilation is required. server.py starts the server, list_ports.py lists MIDI inputs, and templates/index.html contains the display interface."
           ],
           "code": null
         },
@@ -941,8 +941,7 @@
           "title": "Статус разработки",
           "items": [
             "Нативный kext для OpenCore: обнаружение сетей, подключение и IPv4/IPv6 без companion-приложения, login agent, OCLP и патчей системного тома.",
-            "Опубликованных GitHub Releases нет. Номер 1.0.105 в main — метаданные драйвера, а не готовый стабильный релиз. Ветка native-sequoia-development содержит последующую разработку и карту состояния с checkpoint 1.0.114.",
-            "README ветки разработки повторяет более старое описание. Для её возможностей нужно читать docs/development/NATIVE-STATUS.md и соответствующие исходники, а не переносить обещания из одного README."
+            "Готовых релизных пакетов нет. Основная ветка — main. Экспериментальная поддержка дополнительных способов подключения развивается в native-sequoia-development."
           ],
           "code": null
         },
@@ -950,7 +949,7 @@
           "id": "requirements",
           "title": "Требования и подтверждённая область",
           "items": [
-            "Аппаратный checkpoint: QCA9377 PCI 168c:0042, subsystem 1a3b:2b51, x86_64 macOS Sequoia 15.6.1 (24G90). Другие карты и версии macOS не становятся поддерживаемыми от наличия firmware в репозитории.",
+            "Связка с результатами аппаратных испытаний: QCA9377 (PCI 168c:0042, subsystem 1a3b:2b51), x86_64, macOS Sequoia 15.6.1 (24G90). Другие карты и версии macOS могут потребовать отдельной адаптации.",
             "OpenCore и проверенная конфигурация загрузки. Нужна сохранённая рабочая EFI и альтернативный доступ к сети. macOS 11–26 — цель разработки, а не готовая матрица совместимости."
           ],
           "code": null
@@ -972,7 +971,7 @@
           "title": "Использование и ветки",
           "items": [
             "Main: нативное сканирование, WPA2-Personal и экспериментальный opt-in WPA3-SAE/PMF. SAE выключен в стандартной сборке. Для него README задаёт NATIVE=1 NATIVE_SAE_EXPERIMENTAL=1 NATIVE_PMF_PROBE=0 DIAGNOSTIC_STAGE=0.",
-            "Native-sequoia-development: отдельные пути OWE, WPA1, WEP и Enterprise/EAP. Карта состояния сообщает о коротких аппаратных успехах OWE/OWE Transition, WPA1-CCMP, WPA2 и WPA3, но стабильное Enterprise-подключение не принято. Наблюдение mixed TKIP+CCMP не доказывает работу pure TKIP.",
+            "В native-sequoia-development добавлены способы подключения OWE, WPA1, WEP и Enterprise/EAP. На QCA9377 удалось подключиться по OWE, OWE Transition, WPA1-CCMP, WPA2 и WPA3. Enterprise остаётся нестабильным, а работа в режиме только TKIP не подтверждена.",
             "Контракты, флаги сборки и карта состояния native-sequoia-development находятся в документации этой ветки на GitHub."
           ],
           "code": null
@@ -981,10 +980,10 @@
           "id": "limits",
           "title": "Ограничения",
           "items": [
-            "Драйвер в разработке: длительная стабильность, задержки, ошибки передачи и разрывы остаются предметом проверки. Короткий успешный трафик не равен сертификации совместимости.",
-            "WPA3/PMF реализованы и имеют ограниченные аппаратные наблюдения; полная совместимость, group BIP и AP-triggered rekey требуют дальнейших аппаратных подтверждений.",
-            "Host-requested roaming имеет локальные регрессии; физический переход между точками доступа не проверен. Sleep/wake отмечен как possibly working, отдельная проверка сна отложена.",
-            "AWDL/AirDrop и FT/SAE-PK не реализованы. На main Enterprise не заявлен; development содержит EAP-работу без стабильной аппаратной приёмки. Нельзя объявлять поддержку всех macOS или Qualcomm-карт.",
+            "При длительной работе возможны задержки, ошибки передачи и разрывы соединения.",
+            "WPA3 и PMF экспериментальны. Совместимость group BIP и смены ключей по запросу точки доступа ещё не подтверждена.",
+            "Роуминг по запросу системы реализован. Переход между физическими точками доступа и работа после сна остаются экспериментальными.",
+            "AWDL, AirDrop, FT и SAE-PK не реализованы. Enterprise/EAP доступен только как эксперимент в ветке разработки.",
             "Корневая лицензия не покрывает автоматически firmware и все зависимости; в публичном license-audit зафиксированы нерешённые вопросы совместимости лицензий."
           ],
           "code": null
@@ -995,15 +994,6 @@
           "items": [
             "В Issue указывайте build macOS, PCI/subsystem IDs, версию/UUID реально загруженного драйвера и шаги воспроизведения. Перед отправкой очистите диагностику от SSID, MAC, паролей, ключей и личных путей.",
             "Если кext не загрузился, проверьте OpenCore Kernel → Add, зависимости и подпись выбранного артефакта. При проблемах вернитесь к сохранённой рабочей EFI."
-          ],
-          "code": null
-        },
-        {
-          "id": "build",
-          "title": "Что проверено для этой страницы",
-          "items": [
-            "Прочитаны README, compatibility, native guide, status map, история изменений, исходники NativeProfile/радиопути и различия двух актуальных веток. Проверены списки веток и отсутствие опубликованных релизов.",
-            "Сборка/установка драйвера и радиоиспытания для портала не выполнялись. Аппаратные результаты здесь — утверждения публичной карты состояния с указанной областью, а не новые испытания."
           ],
           "code": null
         },
@@ -1022,8 +1012,7 @@
           "title": "Development status",
           "items": [
             "A native OpenCore kext for scanning, association and IPv4/IPv6 traffic without a companion app, login agent, OCLP or system-volume patches.",
-            "There are no published GitHub Releases. Main’s 1.0.105 is driver metadata, not a stable packaged release. native-sequoia-development contains later work and a status map with a 1.0.114 checkpoint.",
-            "The development branch README repeats older descriptions. Read docs/development/NATIVE-STATUS.md and its implementation for branch-specific scope rather than relying on that README alone."
+            "There are no prebuilt release packages. Use main for the standard build. Work on additional connection modes lives in native-sequoia-development."
           ],
           "code": null
         },
@@ -1031,7 +1020,7 @@
           "id": "requirements",
           "title": "Requirements and evidenced scope",
           "items": [
-            "Hardware checkpoint: QCA9377 PCI 168c:0042, subsystem 1a3b:2b51 on x86_64 macOS Sequoia 15.6.1 (24G90). Firmware files do not establish support for other cards or macOS versions.",
+            "Hardware test configuration: QCA9377 (PCI 168c:0042, subsystem 1a3b:2b51), x86_64, macOS Sequoia 15.6.1 (24G90). Other adapters and macOS builds may require separate work.",
             "OpenCore with a validated configuration, a preserved working EFI and an alternative network connection. macOS 11–26 is a development target, not a supported-version matrix."
           ],
           "code": null
@@ -1053,7 +1042,7 @@
           "title": "Usage and branches",
           "items": [
             "Main: native scanning, WPA2-Personal and opt-in experimental WPA3-SAE/PMF. SAE is disabled by default. The README specifies NATIVE=1 NATIVE_SAE_EXPERIMENTAL=1 NATIVE_PMF_PROBE=0 DIAGNOSTIC_STAGE=0.",
-            "native-sequoia-development adds OWE, WPA1, WEP and Enterprise/EAP paths. Its status map reports bounded hardware successes for OWE/OWE Transition, WPA1-CCMP, WPA2 and WPA3, but no stable Enterprise acceptance. A mixed TKIP+CCMP observation does not establish pure TKIP operation.",
+            "native-sequoia-development adds OWE, WPA1, WEP and Enterprise/EAP connection paths. QCA9377 connected using OWE, OWE Transition, WPA1-CCMP, WPA2 and WPA3. Enterprise remains unstable and TKIP-only operation is unconfirmed.",
             "The native-sequoia-development branch documentation on GitHub covers its contracts, build flags and status map."
           ],
           "code": null
@@ -1062,10 +1051,10 @@
           "id": "limits",
           "title": "Limitations",
           "items": [
-            "A development driver: prolonged stability, latency, transmission errors and disconnects remain under investigation. Short successful traffic is not interoperability certification.",
-            "WPA3/PMF are implemented with bounded hardware observations. Full interoperability, group BIP and AP-triggered rekey still need hardware evidence.",
-            "Host-requested roaming has local regressions; physical inter-AP handoff is untested. Sleep/wake is labelled possibly working, with platform sleep investigation deferred.",
-            "AWDL/AirDrop and FT/SAE-PK are not implemented. Main does not advertise Enterprise; development includes EAP work without stable hardware acceptance. Do not infer support for all macOS versions or Qualcomm cards.",
+            "Latency, transmission errors and disconnects are possible during extended use.",
+            "WPA3 and PMF are experimental. Group BIP and access-point-initiated rekeying remain unconfirmed.",
+            "Host-requested roaming is implemented. Handoff between physical access points and operation after sleep remain experimental.",
+            "AWDL, AirDrop, FT and SAE-PK are unimplemented. Enterprise/EAP is available only as experimental work in the development branch.",
             "The root license does not automatically cover firmware and dependencies. The public license audit records unresolved compatibility questions."
           ],
           "code": null
@@ -1076,15 +1065,6 @@
           "items": [
             "Report the macOS build, PCI/subsystem IDs, actual loaded driver version/UUID and reproduction steps. Remove SSIDs, MAC addresses, passwords, keys and personal paths from shared diagnostics.",
             "If the kext does not load, check OpenCore Kernel → Add, dependencies and the selected artifact’s signature. Restore your saved working EFI if needed."
-          ],
-          "code": null
-        },
-        {
-          "id": "build",
-          "title": "Verification behind this page",
-          "items": [
-            "Reviewed README, compatibility, native guide, status maps, changelog, NativeProfile/radio source and differences between both current branches. Checked branch lists and the absence of published releases.",
-            "No driver build, installation or radio testing was performed for this portal. Hardware results here are scoped statements from the public status map, not new tests."
           ],
           "code": null
         },
@@ -1106,6 +1086,7 @@
       "docs/guides/license-audit.md",
       "src/macos/native/Ath10kNativeProfile.hpp",
       "CHANGELOG.md"
-    ]
+    ],
+    "changelog": "CHANGELOG.md"
   }
 ]

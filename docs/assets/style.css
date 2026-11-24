@@ -86,3 +86,18 @@ thead { background: light-dark(#e8ebdf, #30362d); }
 .project-card .visual { height: clamp(160px, 19vw, 238px); flex: none; }
 .illustration-thumb { background: #242622; }
 .illustration-thumb img { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+.site-header nav a[aria-current=page] { color: var(--orange); }
+.about-profile { max-width: 930px; margin: clamp(24px, 5vw, 60px) auto; padding: clamp(20px, 5vw, 46px); color: var(--ink); background: light-dark(#f1e5cd, #2d281f); border: 1px solid light-dark(#cbbb9f, #574837); box-shadow: 0 7px 24px #0002; font-family: "Courier New", Courier, monospace; }
+.dossier-heading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(16px, 4vw, 40px); align-items: center; border-bottom: 2px solid var(--accent-ink); padding-bottom: clamp(16px, 3vw, 27px); margin-bottom: clamp(18px, 3vw, 28px); }
+.about-portrait { display: block; width: 100%; height: auto; border: 1px solid light-dark(#8f8068, #6a5a47); }
+.about-profile h1 { font-family: inherit; font-size: clamp(27px, 4.5vw, 53px); line-height: 1.02; margin: 0; text-transform: uppercase; letter-spacing: -.045em; }
+.dossier-name p { margin: 12px 0 0; color: var(--accent-ink); font-size: clamp(13px, 2vw, 18px); font-weight: 700; }
+.about-copy { max-width: 76ch; }
+.about-copy p a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 3px; }
+.dossier-character { font-weight: 700; }
+.about-profile .doc-actions { margin-bottom: 0; }
+@media (max-width: 580px) {
+  .dossier-heading { grid-template-columns: minmax(0, 1fr); }
+  .about-profile h1 { font-size: clamp(24px, 6vw, 33px); }
+}
