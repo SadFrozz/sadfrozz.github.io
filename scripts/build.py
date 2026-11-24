@@ -29,7 +29,7 @@ def write(path,content):
 
 def shell(lang,title,description,path,alternate,body,kind=''):
     t=T[lang]; altlang='en' if lang=='ru' else 'ru'
-    logo='<span class="brand-mark" aria-hidden="true">F<span>▧</span></span><span>SadFrozz<span class="brand-sub">OPEN SOURCE / LAB</span></span>'
+    logo='<span>SadFrozz</span>'
     return f'''<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)} · SadFrozz</title><meta name="description" content="{E(description,quote=True)}">
@@ -56,45 +56,36 @@ def visual(p):
     icon={'webview':'↗','web-prompter':'¶','mcudisp-web':'▥','ath10k-airport':'⌁'}[p['slug']]
     return f'<div class="small-visual" aria-hidden="true">{icon}</div>'
 
-def card(p,lang,n):
+def card(p,lang):
     t=T[lang]; m=meta(p); status='experimental' if not m['release'] or m['release']['prerelease'] else ''
     return f'''<article class="project-card" data-category="{p['category']}" data-search="{E(name(p,lang)+' '+p['repo']+' '+p['summary'][lang]+' '+' '.join(p['platforms']),quote=True)}">
-<div class="card-top"><span class="eyebrow">{n:02d} / {t[p['category']]}</span><span class="status {status}">{E(label(p,lang))}</span></div>
+<div class="card-top"><span class="eyebrow">{t[p['category']]}</span><span class="status {status}">{E(label(p,lang))}</span></div>
 {visual(p)}<div class="card-copy"><h3>{a(guide(p,lang),name(p,lang))}</h3><p>{E(p['summary'][lang])}</p><div class="tags">{''.join(f'<span>{E(s)}</span>' for s in p['platforms'])}</div></div>
 <div class="card-links">{a(guide(p,lang),t['read']+' ↗')}{a(repo(p),'GitHub','quiet')}</div></article>'''
 
 def portal(lang):
     t=T[lang]
-    if lang=='ru':
-        title='Инструменты для звука. И того, что вокруг.'
-        heading='Инструменты<br>для <em>звука.</em><br><span>И того, что вокруг.</span>'
-        intro='Расширения REAPER, плагины обработки и эксперименты с железом. Всё в одном месте: что скачать, как настроить и где посмотреть исходники.'
-        kicker='ЛИЧНАЯ ЛАБОРАТОРИЯ / ПУБЛИЧНЫЕ ПРОЕКТЫ'
-        cta='Выбрать инструмент'; second='Как устроен портал'; catalogue='Каталог проектов'; subtitle='От импорта дорожек до собственного Wi-Fi-драйвера.'
-        workflow='От задачи к рабочему инструменту.'
-        steps=[('Выберите проект','У каждого есть назначение, платформы и статус публикации.'),('Откройте руководство','Требования, установка, первый запуск и ограничения собраны на отдельной странице.'),('Скачайте нужную версию','Ссылки ведут в исходный репозиторий. Релиз и код в разработке отмечены отдельно.')]
-        about='Сделано для своей работы. Открыто для вашей.'
-        abouttext='Здесь собраны публичные проекты SadFrozz: инструменты для записи, монтажа и обработки звука, а также разработка драйвера macOS. Документация привязана к изученным версиям исходников.'
-        note='Страницы описывают опубликованный код. Границы совместимости и непроверенные возможности указаны в руководствах.'
+    if lang == 'ru':
+        title = 'Проекты и документация'
+        intro = 'Мои проекты для REAPER, плагины обработки звука и Wi-Fi-драйвер для macOS. Здесь собраны инструкции по установке, ссылки на релизы и исходный код.'
+        quick_title = 'Документация'
+        catalogue = 'Проекты'
     else:
-        title='Tools for sound. And everything around it.'
-        heading='Tools for<br><em>sound.</em><br><span>And everything around it.</span>'
-        intro='REAPER extensions, audio plugins and hardware experiments. One place to find downloads, setup guides and source code.'
-        kicker='PERSONAL LAB / PUBLIC PROJECTS';cta='Find a tool';second='About the portal';catalogue='Project catalogue';subtitle='From media import to a native Wi-Fi driver.'
-        workflow='From a task to a working tool.'
-        steps=[('Choose a project','Each guide states its purpose, platforms and publication status.'),('Read the guide','Requirements, installation, first steps and limitations live on a dedicated page.'),('Get the right version','Downloads lead to the original repository. Releases and development code are identified separately.')]
-        about='Built for my work. Open for yours.'
-        abouttext='Public projects by SadFrozz: tools for recording, editing and processing audio, alongside macOS driver development. Documentation is tied to the source revisions reviewed.'
-        note='These pages describe published code. Compatibility boundaries and unverified capabilities are stated in each guide.'
+        title = 'Projects and documentation'
+        intro = 'My REAPER tools, audio plugins and a Wi-Fi driver for macOS. Find setup guides, releases and source code here.'
+        quick_title = 'Documentation'
+        catalogue = 'Projects'
+    quick_links = ''.join(f'<li>{a(guide(p, lang), name(p, lang))}</li>' for p in PROJECTS)
     filterbuttons=''.join(f'<button type="button" data-filter="{cat}" aria-pressed="{str(cat=="all").lower()}">{t[cat]}</button>' for cat in ['all','reaper','audio','network'])
-    body=f'''<main id="main"><section class="hero wrap"><div class="hero-copy"><p class="eyebrow accent">{kicker}</p><h1>{heading}</h1><p class="hero-intro">{intro}</p><div class="hero-actions">{a('#projects',cta+' ↓','button primary')}{a('#workflow',second+' ↗','text-link')}</div></div>
-<div class="hero-object" aria-hidden="true"><div class="object-header"><span>FRZZ / LAB</span><span class="live-dot"></span></div><div class="signal-grid"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span></div><div class="object-title">MAKE<br>SOME<br><em>SIGNAL.</em></div><div class="object-footer"><span>AUDIO / CODE / HARDWARE</span><span>↗</span></div></div>
-<div class="hero-stats"><div><strong>06</strong><span>{'публичных проектов' if lang=='ru' else 'public projects'}</span></div><div><strong>RU / EN</strong><span>{'документация на двух языках' if lang=='ru' else 'guides in two languages'}</span></div><div><strong>100% <span>source</span></strong><span>{'ссылки на открытый код' if lang=='ru' else 'links to public source code'}</span></div></div></section>
-<section id="projects" class="catalogue wrap"><div class="section-heading"><div><p class="eyebrow">01 / {'ИНСТРУМЕНТЫ' if lang=='ru' else 'TOOLS'}</p><h2>{catalogue}</h2><p>{subtitle}</p></div><span class="section-count">[ 6 ]</span></div>
+    body=f'''<main id="main">
+<section class="project-intro wrap" aria-labelledby="portal-title">
+  <div class="intro-copy"><h1 id="portal-title">SadFrozz</h1><p>{E(intro)}</p></div>
+  <nav class="quick-docs" aria-labelledby="quick-docs-title"><h2 id="quick-docs-title">{quick_title}</h2><ul>{quick_links}</ul></nav>
+</section>
+<section id="projects" class="catalogue wrap"><div class="section-heading"><h2>{catalogue}</h2></div>
 <div class="catalogue-controls" hidden><div class="filters" aria-label="{'Категории' if lang=='ru' else 'Categories'}">{filterbuttons}</div><label class="search"><span aria-hidden="true">⌕</span><span class="sr-only">{t['search']}</span><input type="search" placeholder="{t['search']}" aria-label="{t['search']}" maxlength="150"></label></div>
-<p class="filter-result sr-only" role="status" aria-live="polite"></p><div class="projects-grid">{''.join(card(p,lang,i+1) for i,p in enumerate(PROJECTS))}</div><p class="no-results" hidden>{t['empty']}</p></section>
-<section id="workflow" class="workflow wrap"><p class="eyebrow">02 / {'С ЧЕГО НАЧАТЬ' if lang=='ru' else 'GET STARTED'}</p><h2>{workflow}</h2><div class="steps">{''.join(f'<div><span class="step-number">0{i+1}</span><h3>{s[0]}</h3><p>{s[1]}</p></div>' for i,s in enumerate(steps))}</div></section>
-<section class="about wrap"><div><p class="eyebrow">03 / {'О ПРОЕКТАХ' if lang=='ru' else 'ABOUT'}</p><h2>{about}</h2></div><div><p>{abouttext}</p><p class="muted">{note}</p>{a(f'/{lang}/sources/',t['audit']+' ↗','text-link')}</div></section></main>'''
+<p class="filter-result sr-only" role="status" aria-live="polite"></p><div class="projects-grid">{''.join(card(p,lang) for p in PROJECTS)}</div><p class="no-results" hidden>{t['empty']}</p></section>
+</main>'''
     path=home(lang);alternate=home('en' if lang=='ru' else 'ru')
     write(path,shell(lang,title,intro,path,alternate,body,'portal'))
 
