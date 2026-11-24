@@ -44,6 +44,7 @@ for p,page in pages.items():
             if target not in pages or pages[target].lang!=lang:errors.append(f'{p}: wrong language target {url}')
 for p in ROOT.rglob('*'):
     if not p.is_file() or '.git' in p.parts:continue
+    if p.suffix == '.png' and p.parent == OUT/'assets':continue
     text=p.read_text(encoding='utf-8')
     # Match concrete secrets/paths, not documentation discussing them.
     patterns=[r'gh[pousr]_[A-Za-z0-9]{20,}',r'github_pat_[A-Za-z0-9_]{20,}',r'-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----',r'[A-Za-z]:[\\/]Users[\\/]',r'(?i)(?:password|api_key)\s*[=:]\s*[\"\x27][^\"\x27]{5,}[\"\x27]']

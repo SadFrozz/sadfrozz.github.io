@@ -33,34 +33,78 @@ def shell(lang,title,description,path,alternate,body,kind=''):
     return f'''<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)} · SadFrozz</title><meta name="description" content="{E(description,quote=True)}">
-<meta name="theme-color" content="#f4f2eb"><meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; object-src 'none'; form-action 'none'">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/style.css">
 <link rel="canonical" href="{BASE}{path}"><link rel="alternate" hreflang="{lang}" href="{BASE}{path}"><link rel="alternate" hreflang="{altlang}" href="{BASE}{alternate}">
 <meta property="og:title" content="{E(title,quote=True)} · SadFrozz"><meta property="og:description" content="{E(description,quote=True)}"><meta property="og:type" content="website"><meta property="og:url" content="{BASE}{path}">
-<script src="/assets/site.js" defer></script></head>
+<script src="/assets/theme.js"></script><script src="/assets/site.js" defer></script></head>
 <body class="{kind}"><a class="skip" href="#main">{t['skip']}</a>
 <header class="site-header"><div class="header-inner"><a href="{home(lang)}" class="brand" aria-label="SadFrozz">{logo}</a>
 <nav aria-label="{'Навигация' if lang=='ru' else 'Navigation'}">{a(home(lang)+'#projects',t['home'])}{a(f'/{lang}/sources/',t['audit'])}{a('https://github.com/SadFrozz','GitHub ↗')}</nav>
-<div class="language" aria-label="Language / Язык">{a(path if lang=='ru' else alternate,'RU','active' if lang=='ru' else '')}{a(path if lang=='en' else alternate,'EN','active' if lang=='en' else '')}</div></div></header>
+<div class="header-options"><div class="language" aria-label="Language / Язык">{a(path if lang=='ru' else alternate,'RU','active' if lang=='ru' else '')}{a(path if lang=='en' else alternate,'EN','active' if lang=='en' else '')}</div>
+<button class="theme-toggle" type="button" aria-label="{'Тёмная тема' if lang=='ru' else 'Dark theme'}" aria-pressed="false" hidden><span aria-hidden="true">◐</span></button></div></div></header>
 {body}
 <footer class="site-footer"><div><a href="{home(lang)}" class="footer-name">SadFrozz</a><p>{t['foot']}</p></div><div class="footer-meta">{a(f'/{lang}/sources/',t['verified'])}<span>{t['foot2']}</span>{a('https://github.com/SadFrozz/sadfrozz.github.io','GitHub Pages ↗')}</div></footer></body></html>'''
 
-def visual(p):
+def project_screenshot(p, lang, thumbnail=False):
+    russian = lang == 'ru'
+    if p['slug'] == 'dlab-series':
+        asset, width, height = 'dlab-interfaces.png', 1750, 2613
+        alt = 'Интерфейсы dLab 286, 376 и 676' if russian else 'dLab 286, 376 and 676 interfaces'
+        caption = 'Сверху вниз: dLab 286 (Project One), 376 и 676. В релиз v1.0 входят 286 и 376.' if russian else 'Top to bottom: dLab 286 (Project One), 376 and 676. Release v1.0 includes 286 and 376.'
+    elif p['slug'] == 'web-prompter':
+        asset, width, height = 'text-monitor.png', 1903, 1130
+        alt = 'Текстовый монитор с таймкодом, ролями и подсветкой текущей реплики' if russian else 'Text monitor with timecodes, speaker roles and a highlighted cue'
+        caption = 'Текстовый монитор на примере проекта озвучки.' if russian else 'The text monitor showing a sample voice-over session.'
+    else:
+        asset, width, height = 'mcu-display.png', 1702, 427
+        alt = 'MCU Display Web с названиями каналов, уровнями и таймкодом' if russian else 'MCU Display Web with channel names, levels and timecode'
+        caption = 'MCU Display Web: названия каналов, уровни и таймкод.' if russian else 'MCU Display Web showing channel names, levels and timecode.'
+    url = '/assets/' + asset
+    img = f'<img src="{url}" width="{width}" height="{height}" alt="{alt}" loading="lazy">'
+    if thumbnail:
+        return f'<div class="visual screenshot-thumb {p["slug"]}">{img}</div>'
+    return f'<figure class="project-screenshot"><a href="{url}">{img}</a><figcaption>{caption}</figcaption></figure>'
+
+def webview_diagram(lang):
+    russian = lang == 'ru'
+    label = 'Схема: панель WebView рядом с дорожками REAPER' if russian else 'Diagram: a WebView panel beside REAPER tracks'
+    tracks = 'Дорожки' if russian else 'Tracks'
+    page = 'Веб-страница' if russian else 'Web page'
+    return f'''<figure class="visual webview-visual" aria-label="{label}">
+  <div class="webview-host"><strong>REAPER</strong><span>{'Схема' if russian else 'Diagram'}</span></div>
+  <div class="webview-panes">
+    <div class="webview-tracks"><span>{tracks}</span><i></i><i></i><i></i></div>
+    <div class="webview-panel"><span>WebView</span><div class="webview-page">{page}<i></i><i></i></div></div>
+  </div>
+</figure>'''
+
+def wifi_diagram(lang):
+    russian = lang == 'ru'
+    label = 'Схема: адаптер Qualcomm Atheros QCA9377 и системный интерфейс Wi-Fi в macOS' if russian else 'Diagram: Qualcomm Atheros QCA9377 and native macOS Wi-Fi'
+    return f'''<figure class="visual wifi-visual" aria-label="{label}">
+  <div class="webview-host"><strong>Ath10k-airport</strong><span>{'Схема' if russian else 'Diagram'}</span></div>
+  <div class="wifi-diagram"><div class="wifi-node wifi-chip"><strong>QCA9377</strong><span>PCIe</span></div>
+  <span class="wifi-connection" aria-hidden="true">→</span>
+  <div class="wifi-node"><strong>macOS</strong><span>Wi-Fi</span></div></div>
+</figure>'''
+
+def visual(p, lang):
     if p['slug']=='media-import':
         bars=''.join(f'<i class="h{v}"></i>' for v in [16,30,56,38,78,95,65,48,85,60,40,70,100,80,45,24,50,70,56,90,65,30,50,80,95,40,65,32,55,75,35,22,45,60,80,90,55,70,45,25])
         return f'<div class="visual media-visual" aria-hidden="true"><div class="visual-label">MEDIA / SIGNAL IN</div><div class="wave">{bars}</div><div class="codec-row"><span>DOLBY</span><span>DTS</span><span>MKV / MP4</span><span>SUBTITLES</span></div></div>'
-    if p['slug']=='dlab-series':
-        knobs=''.join('<div class="knob"><i></i></div>' for _ in range(6))
-        return f'<div class="visual rack-visual" aria-hidden="true"><div class="rack-top"><strong>dLab<span>286</span></strong><span>CHANNEL STRIP</span><span class="led"></span></div><div class="rack-knobs">{knobs}</div><div class="rack-bottom"><span>COMPRESSOR</span><span>DE-ESSER</span><span>ENHANCER</span><span>GATE</span></div></div>'
-    icon={'webview':'↗','web-prompter':'¶','mcudisp-web':'▥','ath10k-airport':'⌁'}[p['slug']]
-    return f'<div class="small-visual" aria-hidden="true">{icon}</div>'
+    if p['slug'] in ('dlab-series', 'web-prompter', 'mcudisp-web'):
+        return project_screenshot(p, lang, thumbnail=True)
+    if p['slug'] == 'webview':
+        return webview_diagram(lang)
+    return wifi_diagram(lang)
 
 def card(p,lang):
     t=T[lang]; m=meta(p); status='experimental' if not m['release'] or m['release']['prerelease'] else ''
     return f'''<article class="project-card" data-category="{p['category']}" data-search="{E(name(p,lang)+' '+p['repo']+' '+p['summary'][lang]+' '+' '.join(p['platforms']),quote=True)}">
 <div class="card-top"><span class="eyebrow">{t[p['category']]}</span><span class="status {status}">{E(label(p,lang))}</span></div>
-{visual(p)}<div class="card-copy"><h3>{a(guide(p,lang),name(p,lang))}</h3><p>{E(p['summary'][lang])}</p><div class="tags">{''.join(f'<span>{E(s)}</span>' for s in p['platforms'])}</div></div>
+{visual(p,lang)}<div class="card-copy"><h3>{a(guide(p,lang),name(p,lang))}</h3><p>{E(p['summary'][lang])}</p><div class="tags">{''.join(f'<span>{E(s)}</span>' for s in p['platforms'])}</div></div>
 <div class="card-links">{a(guide(p,lang),t['read']+' ↗')}{a(repo(p),'GitHub','quiet')}</div></article>'''
 
 def portal(lang):
@@ -102,6 +146,13 @@ def source_links(p,lang):
 
 def documentation(p,lang):
     t=T[lang];m=meta(p);r=m['release'];path=guide(p,lang);alt=guide(p,'en' if lang=='ru' else 'ru')
+    preview = ''
+    if p['slug'] in ('dlab-series', 'web-prompter', 'mcudisp-web'):
+        preview = project_screenshot(p, lang)
+    elif p['slug'] == 'webview':
+        preview = webview_diagram(lang)
+    elif p['slug'] == 'ath10k-airport':
+        preview = wifi_diagram(lang)
     links=''.join(a('#'+s['id'],s['title']) for s in p['sections'][lang])+a('#downloads',t['downloads'])+a('#sources',t['source'])
     sections=''
     for s in p['sections'][lang]:
@@ -130,7 +181,7 @@ def documentation(p,lang):
 <div class="docs-layout"><aside class="toc"><p class="eyebrow">{t['contents']}</p><nav aria-label="{t['contents']}">{links}</nav></aside>
 <article class="doc-article"><div class="doc-header"><p class="eyebrow accent">{t[p['category']]} / {t['docs']}</p><h1>{E(name(p,lang))}</h1><p class="doc-lead">{E(p['summary'][lang])}</p><div class="tags">{''.join('<span>'+E(s)+'</span>' for s in p['platforms'])}</div>
 <div class="doc-actions">{a('#downloads',t['downloads']+' ↓','button primary')}{a(repo(p),t['code']+' ↗','button outline')}</div><div class="release-note"><span class="status">{E(label(p,lang))}</span><span>{t['verified']}</span></div></div>
-{sections}<div class="support-box"><h3>{t['support']}</h3><p>{'Ошибки и предложения обсуждаются в Issues исходного проекта.' if lang=='ru' else 'Discuss bugs and suggestions in the original project’s Issues.'}</p>{a(repo(p)+'/issues',t['issues']+' ↗','text-link')}</div></article></div>
+{preview}{sections}<div class="support-box"><h3>{t['support']}</h3><p>{'Ошибки и предложения обсуждаются в Issues исходного проекта.' if lang=='ru' else 'Discuss bugs and suggestions in the original project’s Issues.'}</p>{a(repo(p)+'/issues',t['issues']+' ↗','text-link')}</div></article></div>
 <section class="more-projects"><h2>{t['other']}</h2><div>{other}</div></section></main>'''
     write(path,shell(lang,name(p,lang),p['summary'][lang],path,alt,body,'documentation'))
 
